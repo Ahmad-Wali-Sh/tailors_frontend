@@ -10,7 +10,7 @@
   font-style: normal;
 }
 
-$color_primary: #5c0b0b;
+$color_primary: #176069;
 $color_secondary: color.scale($color_primary, $lightness: 20%);
 $color_text: rgb(255, 255, 255);
 $color_darkprime: color.scale($color_primary, $blackness: 100%);
@@ -49,6 +49,7 @@ body {
   background-color: $color_back;
   margin: auto;
   padding: 20px;
+  margin-bottom: 1rem;
   border-radius: 1rem;
   direction: rtl;
 }
@@ -111,4 +112,11 @@ body {
     color: #fff;
     font-weight: bold;
   }
+}
+
+
+.select-options {
+  width: 100%;
+  direction: rtl;
+  justify-content: space-around;
 }
