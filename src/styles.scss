@@ -1,0 +1,46 @@
+@use 'sass:color';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+@font-face {
+    font-family: 'SGKara';
+    src: url(../src/assets/fonts/SGKara-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+$color_primary: #5c0b0b;
+$color_secondary: color.scale($color_primary, $lightness:20%);
+$color_text: rgb(255, 255, 255);
+$color_darkprime: color.scale($color_primary, $blackness:100%);
+
+
+body {
+    font-family: 'SGKara', 'sans-serif';
+    background-color: $color_darkprime;
+}
+
+.navbar {  
+    background: linear-gradient(to right, $color_primary, $color_secondary);
+    color: $color_text; 
+    border-radius: 2rem;
+    margin:1rem;
+    overflow: hidden;
+    box-shadow: 0px 1px 10px $color_secondary;
+  .nav-item {
+        padding: 1rem;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        width: 7rem;
+        text-align: center;
+        &:hover {
+          background-color: $color_darkprime;
+        }
+    }
+  .active-nav {
+    background-color: $color_darkprime;
+  }
+  }
+  

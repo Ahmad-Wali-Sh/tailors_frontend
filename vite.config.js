@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import postcss from 'postcss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    postcss(),
+  ],
   server: {
     port: 3000
   },
-  define: {
-    'VITE_API': 'http://api///'
-  }
 })
 
-// and can use like const apiURL = import.meta.env.VITE_API
