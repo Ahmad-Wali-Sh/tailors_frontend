@@ -70,7 +70,9 @@ body {
   text-align: right;
   margin-top: 20px;
   padding-top: 1rem;
+  display: flex;
   border-top: 1px solid color.scale($color_back, $blackness: 100%);
+  gap: 0.5rem;
 
   button {
     background-color: $color_success;
@@ -78,5 +80,35 @@ body {
     &:hover {
       background-color: color.scale($color_success, $lightness: 30%);
     }
+  }
+}
+
+.step-guide {
+  display: flex;
+  width: 50%;
+  gap: 0.5rem;
+  margin: auto;
+  margin-bottom: 1rem;
+  text-align: center;
+  border-radius: 10px;
+  direction: rtl;
+  background-color: color.scale($color_darkprime, $lightness: 17%);
+}
+
+.step-item {
+  flex: 1;
+  padding: 8px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+
+  &.active {
+    background-color: $color_primary;
+    color: #fff;
+    font-weight: bold;
   }
 }

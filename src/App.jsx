@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import New from "./New/New";
 import Navbar from "./Navbar";
 import Home from "./Home";
-import Customers from "./Customers";
 import Reports from "./Reports";
+import Customers from "./Customers/Customers";
 
 function App() {
   return (
