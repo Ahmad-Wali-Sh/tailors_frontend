@@ -1,46 +1,82 @@
-@use 'sass:color';
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@use "sass:color";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @font-face {
-    font-family: 'SGKara';
-    src: url(../src/assets/fonts/SGKara-Regular.ttf) format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "SGKara";
+  src: url(../src/assets/fonts/SGKara-Regular.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 $color_primary: #5c0b0b;
-$color_secondary: color.scale($color_primary, $lightness:20%);
+$color_secondary: color.scale($color_primary, $lightness: 20%);
 $color_text: rgb(255, 255, 255);
-$color_darkprime: color.scale($color_primary, $blackness:100%);
-
+$color_darkprime: color.scale($color_primary, $blackness: 100%);
+$color_back: #cecece;
+$color_success: #3c69a5;
 
 body {
-    font-family: 'SGKara', 'sans-serif';
-    background-color: $color_darkprime;
+  font-family: "SGKara", "sans-serif";
+  background-color: $color_darkprime;
 }
 
-.navbar {  
-    background: linear-gradient(to right, $color_primary, $color_secondary);
-    color: $color_text; 
-    border-radius: 2rem;
-    margin:1rem;
-    overflow: hidden;
-    box-shadow: 0px 1px 10px $color_secondary;
+.navbar {
+  background: linear-gradient(to right, $color_primary, $color_secondary);
+  color: $color_text;
+  border-radius: 2rem;
+  margin: 1rem;
+  overflow: hidden;
+  box-shadow: 0px 1px 10px $color_secondary;
   .nav-item {
-        padding: 1rem;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-        width: 7rem;
-        text-align: center;
-        &:hover {
-          background-color: $color_darkprime;
-        }
+    padding: 1rem;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 7rem;
+    text-align: center;
+    &:hover {
+      background-color: $color_darkprime;
     }
+  }
   .active-nav {
     background-color: $color_darkprime;
   }
+}
+
+.new-container {
+  max-width: 80%;
+  background-color: $color_back;
+  margin: auto;
+  padding: 20px;
+  border-radius: 1rem;
+  direction: rtl;
+}
+
+.new-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid color.scale($color_back, $blackness: 100%);
+}
+
+.default-inputs {
+  background-color: color.scale($color_darkprime, $lightness: 70%);
+  border-radius: 1rem;
+  &:focus {
+    box-shadow: 0px 3px 3px color.scale($color_primary, $lightness: 40%);
   }
-  
+}
+.new-footer {
+  text-align: right;
+  margin-top: 20px;
+  padding-top: 1rem;
+  border-top: 1px solid color.scale($color_back, $blackness: 100%);
+
+  button {
+    background-color: $color_success;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: color.scale($color_success, $lightness: 30%);
+    }
+  }
+}
