@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+
 function Navbar() {
   const [activeNav, setActiveNav] = useState("");
 
   return (
     <nav className="navbar flex justify-between items-center">
       <Link to={"/"} onClick={() => setActiveNav("")}>
-        <div className="logo text-xl font-bold p-4">نرم افزار دوخت</div>
+        <div className="text-xl font-bold p-4">
+          <img className='logo' src='/Logo.PNG' alt='دوخت پرو'/>
+          {/* <small className="m-1 text-orange-">عالیت دوخت، دوخت به موقع</small> */}
+        </div>
       </Link>
       <div className="flex p-1">
         <Link to="/reports" onClick={() => setActiveNav("reports")}>
           <div className={`nav-item ${activeNav == "reports" && "active-nav"}`}>
-            گذارشات
+            سفارشات
           </div>
         </Link>
         <Link to="/customers" onClick={() => setActiveNav("customers")}>

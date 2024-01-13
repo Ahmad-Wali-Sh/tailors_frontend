@@ -5,21 +5,28 @@
 
 @font-face {
   font-family: "SGKara";
-  src: url(../src/assets/fonts/SGKara-Regular.ttf) format("truetype");
+  src: url(../src/assets/fonts/Gandom.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
-$color_primary: #176069;
+$color_primary: #083852;
 $color_secondary: color.scale($color_primary, $lightness: 20%);
 $color_text: rgb(255, 255, 255);
 $color_darkprime: color.scale($color_primary, $blackness: 100%);
 $color_back: #cecece;
 $color_success: #3c69a5;
+$color_feeler: rgb(96, 34, 69);
+$color_grey: rgb(112, 112, 112);
 
 body {
   font-family: "SGKara", "sans-serif";
   background-color: $color_darkprime;
+}
+
+.logo {
+  width: 15rem;
+  height: 2rem;
 }
 
 .navbar {
@@ -119,4 +126,52 @@ body {
   width: 100%;
   direction: rtl;
   justify-content: space-around;
+}
+
+.select-section {
+  display: flex;
+  justify-content: space-around;
+
+  .select-section-item {
+    width: 10rem;
+    height: 2rem;
+    text-align: center;
+    align-items: center;
+    border-radius: 1rem;
+    background-color: color.scale($color_darkprime, $lightness:50%);
+    color: $color_back;
+    cursor: pointer;
+    padding-top: 0.2rem;
+
+    &.active {
+      background-color: $color_feeler;
+    }
+  }
+}
+
+.order-header {
+  display: grid;
+  grid-template-columns: 7% repeat(6, 16%);
+  text-align: center;
+  background-image: linear-gradient(to right, $color_primary, $color_secondary);
+  color: $color_back;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.order-items {
+  display: grid;
+  grid-template-columns: 7% repeat(6, 16%);
+  text-align: center;
+  background-color: $color_grey;
+  height: 3rem;
+  padding-top: 0.8rem;
+  cursor: pointer;
+  color: $color_text;
+  border-bottom: 1px solid $color_darkprime;
+  margin-bottom: 1rem;
+
+  h4 {
+    direction: ltr;
+  }
 }
