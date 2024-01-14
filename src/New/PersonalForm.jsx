@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function PersonalForm({register, PersonalInfoSubmit, customerInfo}) {
+function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
+
+  useEffect(() => {
+    reset({
+      personal: {
+        first_name: customerInfo?.first_name,
+        last_name: customerInfo?.last_name,
+        contact: customerInfo?.contact,
+        description: customerInfo?.description
+      }
+    })
+  }, [customerInfo])
+
   return (
     <div className="new-container">
       <div className="new-header">
@@ -58,7 +70,7 @@ function PersonalForm({register, PersonalInfoSubmit, customerInfo}) {
         </div>
         <div className="new-footer">
           <button
-            onClick={PersonalInfoSubmit}
+            onClick={submitPersonalInfo}
             className="text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
           >
             ذخیره

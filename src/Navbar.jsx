@@ -10,7 +10,6 @@ function Navbar() {
       <Link to={"/"} onClick={() => setActiveNav("")}>
         <div className="text-xl font-bold p-4">
           <img className='logo' src='/Logo.PNG' alt='دوخت پرو'/>
-          {/* <small className="m-1 text-orange-">عالیت دوخت، دوخت به موقع</small> */}
         </div>
       </Link>
       <div className="flex p-1">

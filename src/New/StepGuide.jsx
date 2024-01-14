@@ -1,6 +1,6 @@
 import React from "react";
 
-const StepGuide = ({ currentStep, onStepClick, types }) => {
+const StepGuide = ({ currentStep, onStepClick, types, customerInfo }) => {
 
   return (
     <div className="step-guide">
@@ -12,7 +12,7 @@ const StepGuide = ({ currentStep, onStepClick, types }) => {
       >
         اطلاعات شخصی
       </div>
-      {types?.map((type, index) => (
+      {customerInfo && types?.map((type, index) => (
         <div
           key={index}
           className={`step-item ${currentStep === type.name ? "active" : ""}`}
