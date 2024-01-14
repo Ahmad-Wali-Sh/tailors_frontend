@@ -1,17 +1,24 @@
-import React from 'react';
+import React from "react";
 
-const StepGuide = ({ currentStep, onStepClick }) => {
-  const steps = ['اطلاعات شخصی', 'اندازه - افغانی', 'اندازه - کت شلوار']; // Add your step names here
+const StepGuide = ({ currentStep, onStepClick, types }) => {
 
   return (
     <div className="step-guide">
-      {steps.map((step, index) => (
+      <div
+        className={`step-item ${
+          currentStep === "اطلاعات شخصی" ? "active" : ""
+        }`}
+        onClick={() => onStepClick("اطلاعات شخصی")}
+      >
+        اطلاعات شخصی
+      </div>
+      {types?.map((type, index) => (
         <div
           key={index}
-          className={`step-item ${currentStep === index + 1 ? 'active' : ''}`}
-          onClick={() => onStepClick(index + 1)}
+          className={`step-item ${currentStep === type.name ? "active" : ""}`}
+          onClick={() => onStepClick(type.name)}
         >
-          {step}
+        اندازه: {type.name}
         </div>
       ))}
     </div>
