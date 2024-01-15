@@ -25,7 +25,7 @@ function Navbar() {
             مشتریان
           </div>
         </Link>
-        <Link to="/new" onClick={() => setActiveNav("new")}>
+        <Link to="/new" onClick={() => {setActiveNav("new")}}>
           <div
             className={`nav-item rounded-r-full ${
               activeNav == "new" && "active-nav"

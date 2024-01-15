@@ -27,15 +27,20 @@ const useApi = () => {
     }
   };
 
+  // Function to manually set data
+  const dataSeter = (newData) => {
+    setData(newData);
+  };
+
   const get = (endpoint) => makeRequest("get", endpoint);
   const post = (endpoint, data, successCallback) =>
-  makeRequest("post", endpoint, data, successCallback)
-    .then(() => {
-      toast.success("موفقانه بود");
-    })
-    .catch((error) => {
-      toast.error("دوباره امتحان کنید");
-    });
+    makeRequest("post", endpoint, data, successCallback)
+      .then(() => {
+        toast.success("موفقانه بود");
+      })
+      .catch(() => {
+        toast.error("دوباره امتحان کنید");
+      });
   const put = (endpoint, data) =>
     makeRequest("put", endpoint, data)
       .then(() => {
@@ -44,14 +49,14 @@ const useApi = () => {
       .catch(() => {
         toast.error("دوباره امتحان کنید");
       });
-  const patch = (endpoint, data) =>
-    makeRequest("patch", endpoint, data)
-      .then(() => {
-        toast.info("موفقانه بود");
-      })
-      .catch(() => {
-        toast.error("دوباره امتحان کنید");
-      });
+      const patch = (endpoint, data, successCallback) =>
+      makeRequest("patch", endpoint, data, successCallback)
+        .then(() => {
+          toast.info("موفقانه بود");
+        })
+        .catch(() => {
+          toast.error("دوباره امتحان کنید");
+        });
   const deleter = (endpoint) =>
     makeRequest("delete", endpoint)
       .then(() => {
@@ -68,7 +73,7 @@ const useApi = () => {
     };
   }, []); // Empty dependency array to run only once on mount
 
-  return { data, loading, error, get, post, put, patch, deleter };
+  return { data, loading, error, get, post, put, patch, deleter, dataSeter };
 };
 
 export default useApi;

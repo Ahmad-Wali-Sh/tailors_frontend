@@ -1,25 +1,36 @@
+import axios from "axios";
 import React from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 
-function CustomerSearch() {
-  const loadOptions = async (search, loadedOptions, { page }) => {
-    const data = Array.from({ length: 10 }, (_, index) => ({
-      value: `${search}-${page}-${index}`,
-      label: `Option ${search}-${page}-${index}`,
-      firstName: `حسیب الله${index}`,
-      lastName: `شریفی${index}`,
-      contact: `۰۷۱۲۳۲۱۳۳۲${index}`,
-      id: index + 1,
-      description: `Description ${index}`,
-    }));
+function CustomerSearch({resetToNew, selectedCustomer}) {
 
-    return {
-      options: data,
-    };
+
+  const handleLoadOptions = async (search, loadedOptions) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/customers/?search=${search}`);
+      const options = response?.data.results.map((item) => ({
+        first_name: item.first_name, // Adjust according to your API response
+        last_name: item.last_name,   // Adjust according to your API response
+        contact: item.contact,   // Adjust according to your API response
+        id: item.id,   // Adjust according to your API response
+        description: item.description,   // Adjust according to your API response
+      }));
+
+      console.log(loadedOptions);
+      return {
+        options,
+      };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return {
+        options: [],
+      };
+    }
   };
+
   const formatOptionLabel = ({
-    firstName,
-    lastName,
+    first_name,
+    last_name,
     contact,
     id,
     description,
@@ -27,30 +38,31 @@ function CustomerSearch() {
     <div className="flex select-options">
       <div>{id}</div>
       <div>
-        <strong>{`${firstName} ${lastName}`}</strong>
+        <strong>{`${first_name} ${last_name}`}</strong>
       </div>
       <div>{contact}</div>
       <div>{description}</div>
     </div>
   );
 
+  
+
   return (
     <div className="new-container">
-      <label className="block mb-2">جستوجو: </label>
-      <AsyncPaginate
-        loadOptions={loadOptions}
-        isClearable
-        placeholder="جستوجو توسط اسم. شماره. آی دی یا توضیحات"
-        cacheOptions
-        autoFocus
-        additional={{
-          page: 1,
-        }}
-        onChange={(selectedOption) => console.log(selectedOption)}
-        filterOption={() => true}
-        formatOptionLabel={formatOptionLabel}
-        loadOptionsOnMenuOpen={true}
-      />
+      <div className="flex w-full align-middle">
+        <div className="w-full">
+          <label className="block mb-2">جستوجو: </label>
+          <AsyncPaginate
+            loadOptions={handleLoadOptions}
+            isClearable
+            placeholder="جستوجو توسط اسم. شماره. آی دی یا توضیحات"
+            autoFocus
+            onChange={(selectedOption) => selectedCustomer(selectedOption)}
+            formatOptionLabel={formatOptionLabel}
+          />
+        </div>
+        <div className="w-16 mt-10 mr-5 text-bold text-xl plus-button" onClick={resetToNew}>+</div>
+      </div>
     </div>
   );
 }

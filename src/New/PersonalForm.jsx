@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
-function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
-
+function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
   useEffect(() => {
+    console.log(customerInfo);
     reset({
       personal: {
-        first_name: customerInfo?.first_name,
-        last_name: customerInfo?.last_name,
-        contact: customerInfo?.contact,
-        description: customerInfo?.description
-      }
-    })
-  }, [customerInfo])
+        first_name: customerInfo?.first_name || '',
+        last_name: customerInfo?.last_name || '',
+        contact: customerInfo?.contact || '',
+        description: customerInfo?.description || '',
+      },
+    });
+  }, [customerInfo]);
 
   return (
-    <div className="new-container">
+    <div
+      className={`new-container ${
+        customerInfo ? "new-container-finished" : ""
+      }`}
+    >
       <div className="new-header">
         <h2>مشتری جدید - اطلاعات شخصی</h2>
       </div>
@@ -27,7 +31,9 @@ function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
             </label>
             <input
               type="text"
-              {...register('personal.first_name', { required: 'نام ضروری است.'})}
+              {...register("personal.first_name", {
+                required: "نام ضروری است.",
+              })}
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
             />
@@ -37,7 +43,9 @@ function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
               تخلص:
             </label>
             <input
-              {...register('personal.last_name', {required: 'نام فامیلی ضروری است'})}
+              {...register("personal.last_name", {
+                required: "نام فامیلی ضروری است",
+              })}
               type="text"
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
@@ -49,7 +57,7 @@ function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
             </label>
             <input
               type="text"
-              {...register('personal.contact', {required: 'شماره ضروری است'})}
+              {...register("personal.contact", { required: "شماره ضروری است" })}
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
             />
@@ -60,9 +68,9 @@ function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               توضیحات:
             </label>
-            <input           
+            <input
               type="text"
-              {...register('personal.description')}
+              {...register("personal.description")}
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
             />
@@ -70,15 +78,18 @@ function PersonalForm({register, submitPersonalInfo, customerInfo, reset}) {
         </div>
         <div className="new-footer">
           <button
+            tabIndex={-1}
             onClick={submitPersonalInfo}
-            className="text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+            className={`" ${
+              customerInfo ? "bg-blue-900" : "bg-emerald-900"
+            } text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
           >
-            ذخیره
+            {customerInfo ? "ویرایش" : "ثبت"}
           </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default PersonalForm
+export default PersonalForm;

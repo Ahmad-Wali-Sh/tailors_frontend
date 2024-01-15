@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import PersonalForm from "./PersonalForm";
-import StepGuide from "./StepGuide";
 import { useEffect } from "react";
 import useApi from "../Services/AxiosInstance";
 import Mesurement from "./Mesurement";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { EnglishNumeric } from "../Services/EnglishNumeric";
 
-function New() {
-  const [currentStep, setCurrentStep] = useState("اطلاعات شخصی");
+function New({CustomerInformation}) {
   const {
     register,
     handleSubmit,
@@ -28,9 +25,14 @@ function New() {
     data: customerInfo,
     post: post_customer_info,
     patch: patch_customer_info,
+    dataSeter
   } = useApi();
+  const { data: customerDetails, get: get_customer_details, dataSeter: customerDetailsSet } = useApi();
 
-  const { data: customerDetails, get: get_customer_details} = useApi()
+  useEffect(() => {
+    customerDetailsSet && customerDetailsSet(CustomerInformation)
+  }, [CustomerInformation])
+
 
   const submitPersonalInfo = (data) => {
     const Form = new FormData();
@@ -40,72 +42,77 @@ function New() {
     Form.append("description", data.personal.description);
     customerInfo
       ? patch_customer_info("customers/" + customerInfo.id + "/", Form)
-      : post_customer_info("customers/", Form, () => {
-          setCurrentStep(measurmentTypes?.results[0].name);
-        });
+      : post_customer_info("customers/", Form);
   };
 
   const {
     data: customerMesurement,
     post: post_customer_measuerment,
     patch: patch_customer_measurement,
+    dataSeter: customerMeasurementSet
   } = useApi();
 
   const submitCustomerMeasurement = (data, type) => {
-    const mesurementobject = customerDetails?.measurements?.filter((obj) => {return obj.measurement_type == type.id})
+    get_customer_details("/customers/" + customerInfo.id);
+    const mesurementobject = customerDetails?.measurements?.filter((obj) => {
+      return obj.measurement_type == type.id;
+    });
     const typename = type.name;
     const Form = new FormData();
-    Form.append("data", EnglishNumeric(JSON.stringify(data.measurment[typename])));
+    Form.append(
+      "data",
+      EnglishNumeric(JSON.stringify(data.measurment[typename]))
+    );
     Form.append("customer", customerInfo.id);
     Form.append("measurement_type", type.id);
     mesurementobject?.[0]?.id
       ? patch_customer_measurement(
           "/customer-measurements/" + mesurementobject?.[0].id + "/",
-          Form
+          Form, () => {
+            get_customer_details("/customers/" + customerInfo.id);
+          }
         )
       : post_customer_measuerment("/customer-measurements/", Form);
-
-      get_customer_details('/customers/' +  customerInfo.id)
+      get_customer_details("/customers/" + customerInfo.id);
   };
-
-  const goToStep = (step) => {
-    setCurrentStep(step);
-  };
-
+  
+  useEffect(() => {
+    dataSeter(customerDetails)
+  }, [customerDetails])
   return (
     <div className="multistep-form">
-      <StepGuide
-        currentStep={currentStep}
-        types={measurmentTypes?.results}
-        onStepClick={goToStep}
+      <PersonalForm
+        register={register}
+        submitPersonalInfo={handleSubmit(submitPersonalInfo)}
         customerInfo={customerInfo}
+        reset={reset}
       />
-      {currentStep === "اطلاعات شخصی" && (
-        <PersonalForm
-          register={register}
-          submitPersonalInfo={handleSubmit(submitPersonalInfo)}
+      <button onClick={() => {
+        get_customer_details("/customers/" + 30);
+      }}>
+        Get
+      </button>
+      <button onClick={() => {
+        customerDetailsSet('')
+        customerMeasurementSet('')
+      }}>
+        reset
+      </button>
+      {measurmentTypes?.results.map((type) => (
+        <Mesurement
+          key={type.name}
+          type={type}
+          customerMesurement={customerMesurement}
           customerInfo={customerInfo}
+          register={register}
           reset={reset}
+          setValue={setValue}
+          submitCustomerMeasurement={submitCustomerMeasurement}
+          handleSubmit={handleSubmit}
+          watch={watch}
+          customerDetails={ customerDetails}
         />
-      )}
-      {measurmentTypes?.results.map(
-        (type) =>
-          currentStep === type.name && (
-            <Mesurement
-              key={type.name}
-              type={type}
-              customerMesurement={customerMesurement}
-              customerInfo={customerInfo}
-              register={register}
-              reset={reset}
-              setValue={setValue}
-              submitCustomerMeasurement={submitCustomerMeasurement}
-              handleSubmit={handleSubmit}
-              watch={watch}
-              customerDetails={customerDetails}
-            />
-          )
-      )}
+      ))}
     </div>
   );
 }
