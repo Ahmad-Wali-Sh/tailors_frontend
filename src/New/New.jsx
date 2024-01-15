@@ -6,7 +6,7 @@ import Mesurement from "./Mesurement";
 import { useForm } from "react-hook-form";
 import { EnglishNumeric } from "../Services/EnglishNumeric";
 
-function New({CustomerInformation}) {
+function New({CustomerInformation, parent_get_customer_details}) {
   const {
     register,
     handleSubmit,
@@ -41,8 +41,12 @@ function New({CustomerInformation}) {
     Form.append("contact", EnglishNumeric(data.personal.contact));
     Form.append("description", data.personal.description);
     customerInfo
-      ? patch_customer_info("customers/" + customerInfo.id + "/", Form)
-      : post_customer_info("customers/", Form);
+      ? patch_customer_info("customers/" + customerInfo.id + "/", Form, (res) => {
+        parent_get_customer_details('customers/' + res.id)
+      })
+      : post_customer_info("customers/", Form, (res) => {
+        parent_get_customer_details('customers/' + res.id)
+      });
   };
 
   const {
@@ -70,15 +74,20 @@ function New({CustomerInformation}) {
           "/customer-measurements/" + mesurementobject?.[0].id + "/",
           Form, () => {
             get_customer_details("/customers/" + customerInfo.id);
+            parent_get_customer_details('/customers/' + customerInfo.id)
           }
         )
-      : post_customer_measuerment("/customer-measurements/", Form);
-      get_customer_details("/customers/" + customerInfo.id);
+      : post_customer_measuerment("/customer-measurements/", Form, () => {
+        get_customer_details("/customers/" + customerInfo.id);
+        parent_get_customer_details('/customers/' + customerInfo.id)
+      });
   };
   
   useEffect(() => {
     dataSeter(customerDetails)
   }, [customerDetails])
+
+ 
   return (
     <div className="multistep-form">
       <PersonalForm
@@ -87,17 +96,6 @@ function New({CustomerInformation}) {
         customerInfo={customerInfo}
         reset={reset}
       />
-      <button onClick={() => {
-        get_customer_details("/customers/" + 30);
-      }}>
-        Get
-      </button>
-      <button onClick={() => {
-        customerDetailsSet('')
-        customerMeasurementSet('')
-      }}>
-        reset
-      </button>
       {measurmentTypes?.results.map((type) => (
         <Mesurement
           key={type.name}

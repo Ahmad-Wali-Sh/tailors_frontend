@@ -10,7 +10,7 @@
   font-style: normal;
 }
 
-$color_primary: #083852;
+$color_primary: #02181b;
 $color_secondary: color.scale($color_primary, $lightness: 20%);
 $color_text: rgb(255, 255, 255);
 $color_darkprime: color.scale($color_primary, $blackness: 100%);
@@ -71,7 +71,7 @@ body {
 }
 
 .default-inputs {
-  background-color: color.scale($color_darkprime, $lightness: 70%);
+  background-color: color.scale($color_grey, $lightness: 55%);
   border-radius: 1rem;
   &:focus {
     box-shadow: 0px 3px 3px color.scale($color_primary, $lightness: 40%);

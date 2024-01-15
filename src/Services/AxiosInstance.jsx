@@ -38,8 +38,9 @@ const useApi = () => {
       .then(() => {
         toast.success("موفقانه بود");
       })
-      .catch(() => {
+      .catch((e) => {
         toast.error("دوباره امتحان کنید");
+        console.log(e);
       });
   const put = (endpoint, data) =>
     makeRequest("put", endpoint, data)

@@ -24,15 +24,15 @@ function Customers() {
 
   const selectedCustomer = (data) => {
     customerDetailsSet(data)
+    console.log(data);
   }
-
 
   return (
     <>
       <CustomerSearch resetToNew={resetToNew} selectedCustomer={selectedCustomer}/>
       <CustomerButtons currentStep={currentStep} onStepClick={goToStep} />
-      {currentStep === 1 && <New CustomerInformation={customerDetails}/>}
-      {currentStep === 2 && <CustomerNewOrder />}
+      {currentStep === 1 && <New CustomerInformation={customerDetails} parent_get_customer_details={get_customer_details}/>}
+      {currentStep === 2 && <CustomerNewOrder CustomerInformation={customerDetails}/>}
       {currentStep === 3 && <CustomerOrders />}
     </>
   );
