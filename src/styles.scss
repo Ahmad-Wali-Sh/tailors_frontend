@@ -29,6 +29,36 @@ body {
   height: 2rem;
 }
 
+
+.print-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  table-layout: fixed;
+}
+
+.print-table{
+  margin: 1rem;
+  width: 300px;
+  direction: rtl;  
+  text-align: center;
+  tr{
+    display: grid;
+    grid-template-columns: 40px 130px 40px 100px;
+    justify-content: right;
+    gap: 1.2rem;
+    width: 100%;
+    text-align: right;
+    direction: rtl;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  td{
+    text-align: right;
+    direction: ltr;
+  }
+}
+
 .navbar {
   background: linear-gradient(to right, $color_primary, $color_secondary);
   color: $color_text;
