@@ -27,7 +27,7 @@ export const PrintForm = React.forwardRef((props, ref) => {
       return mesure.measurement_type == props?.orderStyle?.id
     })
 
-    const typesArray = customerType?.[0]?.data && Object.entries(customerType?.[0]?.data).map(([key, value]) => ({
+    const typesArray = order.instance_measurement?.data && Object.entries(order.instance_measurement?.data).map(([key, value]) => ({
       value,
       key
     }));

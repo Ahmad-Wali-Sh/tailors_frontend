@@ -190,17 +190,75 @@ body {
   margin-bottom: 1rem;
 }
 
+.order-checkbox{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.delete-order{
+  color:rgb(151, 13, 13);
+  font-weight: bold;
+
+  &:hover{
+    color: white
+  }
+}
+
+.custom-modal {
+  background-color: #fff;
+  padding: 20px;
+  width: 600px;
+  height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  direction: rtl;
+
+  button {
+    background-color: #e53e3e;
+    color: #fff;
+    border: none;
+    scale: 0.8;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #c53030;
+    }
+  }
+}
+
+.custom-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+
 .order-items {
   display: grid;
   grid-template-columns: 7% repeat(6, 16%);
   text-align: center;
-  background-color: $color_grey;
+  background-color: color.scale($color_grey, $lightness: 50%);
   height: 3rem;
   padding-top: 0.8rem;
   cursor: pointer;
-  color: $color_text;
+  color: color.scale($color_darkprime, $lightness: 40%);
   border-bottom: 1px solid $color_darkprime;
   margin-bottom: 1rem;
+
+  &:hover {
+    color: color.scale($color_darkprime, $lightness: 0%);
+  }
 
   h4 {
     direction: ltr;

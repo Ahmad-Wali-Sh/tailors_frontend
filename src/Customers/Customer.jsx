@@ -32,7 +32,7 @@ function Customer() {
       <CustomerButtons currentStep={currentStep} onStepClick={goToStep} />
       {currentStep === 1 && <CustomerDetails CustomerInformation={customerDetails} parent_get_customer_details={get_customer_details}/>}
       {currentStep === 2 && <CustomerNewOrder CustomerInformation={customerDetails}/>}
-      {currentStep === 3 && <CustomerOrders />}
+      {currentStep === 3 && <CustomerOrders CustomerInformation={customerDetails}/>}
     </>
   );
 }

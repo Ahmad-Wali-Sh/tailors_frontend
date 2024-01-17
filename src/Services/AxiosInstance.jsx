@@ -11,7 +11,12 @@ const useApi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const makeRequest = async (method, endpoint, requestData = null, successCallback = null) => {
+  const makeRequest = async (
+    method,
+    endpoint,
+    requestData = null,
+    successCallback = null
+  ) => {
     try {
       setLoading(true);
       const response = await instance[method](endpoint, requestData);
@@ -50,22 +55,22 @@ const useApi = () => {
       .catch(() => {
         toast.error("دوباره امتحان کنید");
       });
-      const patch = (endpoint, data, successCallback) =>
-      makeRequest("patch", endpoint, data, successCallback)
-        .then(() => {
-          toast.info("موفقانه بود");
-        })
-        .catch(() => {
-          toast.error("دوباره امتحان کنید");
-        });
-  const deleter = (endpoint) =>
-    makeRequest("delete", endpoint)
+  const patch = (endpoint, data, successCallback) =>
+    makeRequest("patch", endpoint, data, successCallback)
       .then(() => {
-        toast.danger("موفقانه حذف شد بود");
+        toast.info("موفقانه بود");
       })
       .catch(() => {
         toast.error("دوباره امتحان کنید");
       });
+      const deleter = (endpoint, successCallback) =>
+      makeRequest("delete", endpoint, undefined, successCallback)
+        .then(() => {
+          toast.success("موفقانه بود");
+        })
+        .catch(() => {
+          toast.error("دوباره امتحان کنید");
+        });
 
   useEffect(() => {
     // You can add any cleanup logic here if needed
