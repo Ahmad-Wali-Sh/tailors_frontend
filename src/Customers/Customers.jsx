@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import New from "../New/New";
+import CustomerDetails from "./CustomerDetails/CustomerDetails";
 import useApi from "../Services/AxiosInstance";
 import CustomerButtons from "./CustomerButtons";
 import CustomerNewOrder from "./CustomerNewOrder";
@@ -31,7 +30,7 @@ function Customers() {
     <>
       <CustomerSearch resetToNew={resetToNew} selectedCustomer={selectedCustomer}/>
       <CustomerButtons currentStep={currentStep} onStepClick={goToStep} />
-      {currentStep === 1 && <New CustomerInformation={customerDetails} parent_get_customer_details={get_customer_details}/>}
+      {currentStep === 1 && <CustomerDetails CustomerInformation={customerDetails} parent_get_customer_details={get_customer_details}/>}
       {currentStep === 2 && <CustomerNewOrder CustomerInformation={customerDetails}/>}
       {currentStep === 3 && <CustomerOrders />}
     </>

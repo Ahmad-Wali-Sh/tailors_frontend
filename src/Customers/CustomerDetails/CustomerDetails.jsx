@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import PersonalForm from "./PersonalForm";
 import { useEffect } from "react";
-import useApi from "../Services/AxiosInstance";
+import useApi from "../../Services/AxiosInstance";
 import Mesurement from "./Mesurement";
 import { useForm } from "react-hook-form";
-import { EnglishNumeric } from "../Services/EnglishNumeric";
+import { EnglishNumeric } from "../../Services/EnglishNumeric";
 
-function New({CustomerInformation, parent_get_customer_details}) {
+function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
   const {
     register,
     handleSubmit,
@@ -115,4 +115,4 @@ function New({CustomerInformation, parent_get_customer_details}) {
   );
 }
 
-export default New;
+export default CustomerDetails;

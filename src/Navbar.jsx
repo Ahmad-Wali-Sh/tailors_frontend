@@ -7,31 +7,31 @@ function Navbar() {
 
   return (
     <nav className="navbar flex justify-between items-center">
-      <Link to={"/"} onClick={() => setActiveNav("")}>
+      <Link to={"/home"} onClick={() => setActiveNav("home")}>
         <div className="text-xl font-bold p-4">
           <img className='logo' src='/Logo.PNG' alt='دوخت پرو'/>
         </div>
       </Link>
       <div className="flex p-1">
-        <Link to="/reports" onClick={() => setActiveNav("reports")}>
-          <div className={`nav-item ${activeNav == "reports" && "active-nav"}`}>
+        <Link to="/settings" onClick={() => setActiveNav("settings")}>
+          <div className={`nav-item ${activeNav == "settings" && "active-nav"}`}>
+            تنظیمات
+          </div>
+        </Link>
+        <Link to="/orders" onClick={() => setActiveNav("orders")}>
+          <div
+            className={`nav-item ${activeNav == "orders" && "active-nav"}`}
+          >
             سفارشات
           </div>
         </Link>
-        <Link to="/customers" onClick={() => setActiveNav("customers")}>
-          <div
-            className={`nav-item ${activeNav == "customers" && "active-nav"}`}
-          >
-            مشتریان
-          </div>
-        </Link>
-        <Link to="/new" onClick={() => {setActiveNav("new")}}>
+        <Link to="/" onClick={() => {setActiveNav("")}}>
           <div
             className={`nav-item rounded-r-full ${
-              activeNav == "new" && "active-nav"
+              activeNav == "" && "active-nav"
             }`}
           >
-            جدید
+            مشتریان
           </div>
         </Link>
       </div>
