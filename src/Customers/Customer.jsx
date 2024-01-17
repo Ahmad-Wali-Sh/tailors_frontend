@@ -6,7 +6,7 @@ import CustomerNewOrder from "./CustomerNewOrder";
 import CustomerOrders from "./CustomerOrders";
 import CustomerSearch from "./CustomerSearch";
 
-function Customers() {
+function Customer() {
   const [currentStep, setCurrentStep] = useState(1);
 
   const goToStep = (step) => {
@@ -37,4 +37,4 @@ function Customers() {
   );
 }
 
-export default Customers;
+export default Customer;
