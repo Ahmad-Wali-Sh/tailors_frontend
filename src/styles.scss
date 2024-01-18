@@ -22,6 +22,10 @@ $color_grey: rgb(112, 112, 112);
 body {
   font-family: "Gandom", "sans-serif";
   background-color: $color_darkprime;
+  transform: scale(0.85);
+  transform-origin: top left;
+  width: 117.6471%; /* Compensate for the scaled width */
+  height: 117.6471%; /* Compensate for the scaled height */
 }
 
 .logo {
@@ -44,7 +48,7 @@ body {
   text-align: center;
   tr{
     display: grid;
-    grid-template-columns: 80px 100px 80px 80px;
+    grid-template-columns: 60px 120px 80px 80px;
     justify-content: right;
     gap: 1.2rem;
     width: 100%;
@@ -105,6 +109,10 @@ body {
   border-radius: 1rem;
   &:focus {
     box-shadow: 0px 3px 3px color.scale($color_primary, $lightness: 40%);
+  }
+
+  &:disabled {
+    background-color: color.scale($color_grey, $lightness: 70%);
   }
 }
 .new-footer {
@@ -208,6 +216,8 @@ body {
   background-color: #fff;
   padding: 20px;
   width: 600px;
+  position: absolute;
+  top: 10%;
   height: 90vh;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

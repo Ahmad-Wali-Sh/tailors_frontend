@@ -13,20 +13,10 @@ export const PrintForm = React.forwardRef((props, ref) => {
     get_tailors_info('/tailorshop')
   }, [])
 
-  
-  useEffect(() => {
-    console.log(props.CustomerInformation);
-    console.log(props.order);
-    console.log(customerTypeData()); 
-  },[props?.CustomerInformation, props?.order, props?.orderStyle])
 
-  const customer = props?.CustomerInformation
+  const customer = props?.order?.customer_details?.[0]
   const order = props?.order
   const customerTypeData = () => {
-    const customerType = customer?.measurements.filter((mesure) => {
-      return mesure.measurement_type == props?.orderStyle?.id
-    })
-
     const typesArray = order.instance_measurement?.data && Object.entries(order.instance_measurement?.data).map(([key, value]) => ({
       value,
       key
@@ -52,7 +42,7 @@ export const PrintForm = React.forwardRef((props, ref) => {
           <h5>تماس: {tailorsInfo?.results?.[0]?.contact}</h5>
         </div>
         <tr>
-          <td>نام</td>
+          <td>محترم</td>
           <td>{customer.first_name} {customer.last_name}</td>
           <td>آی.دی</td>
           <td>{customer.id}</td>
@@ -64,18 +54,41 @@ export const PrintForm = React.forwardRef((props, ref) => {
           <td>{order.date_delivery}</td>
         </tr>
         <tr>
+          <td>تعداد</td>
+          <td>{order.quantity}</td>
           <td>قیمت</td>
-          <td>{order.price}</td>
+          <td>{order.dokht_price}</td>
+        </tr>
+        <tr>
+          <td>پارچه</td>
+          <td>{order.parcha}</td>
+          <td>قیمت</td>
+          <td>{order.clothing_price}</td>
+        </tr>
+        <tr>
+          <td>متراژ</td>
+          <td>{order.meters}</td>
+          <td>قیمت کل</td>
+          <td>{order.grand_total}</td>
+        </tr>
+        <tr>
           <td>رسید</td>
-          <td>0 Af</td>
+          <td>{order.rasid}</td>
+          <td>الباقی</td>
+          <td>{order.al_baghi}</td>
         </tr>
           <h5>آدرس: {tailorsInfo?.results?.[0]?.address}</h5>
       </table>
       <table className="print-table">
         <div>
           <h3>{tailorsInfo?.results?.[0]?.name}</h3>
-          <h3>نام مشتری: {customer.first_name} {customer.last_name}</h3>
-          <h3>آی دی: {customer.id}</h3>
+          <small>id: {customer.id}</small>
+          <tr className="flex">
+          <h3>محترم:</h3>
+          <h3>{customer.first_name} {customer.last_name}</h3>
+          <h3>قیمت کل: </h3>
+          <h3>{order.grand_total}</h3>
+          </tr>
         </div>
         {customerTypeData()?.map((item) => (
         <tr className="flex">
@@ -92,9 +105,35 @@ export const PrintForm = React.forwardRef((props, ref) => {
 
 function CustomerNewOrder({ CustomerInformation }) {
   const [orderStyle, setOrderStyle] = useState();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset, watch, setValue } = useForm();
   const { data: mesurementsType, get: get_mesurement_type } = useApi();
   const { data: order, post: post_order, patch: patch_order } = useApi();
+  const {data: tailorsInfo, get: get_tailors_info} = useApi()
+
+  useEffect(() => {
+    get_tailors_info('/tailorshop')
+  }, [])
+
+  useEffect(() => {
+    reset({
+      grand_total: (parseFloat(watch('dokht_price')) * parseFloat(watch('quantity'))) + parseFloat(watch('clothing_price')),
+      al_baghi: watch('grand_total') - watch('rasid'),
+    })
+
+  }, [watch('rasid'), watch('dokht_price'), watch('clothing_price'), watch('quantity')])
+
+
+  useEffect(() => {
+    reset({
+      dokht_price: 400,
+      clothing_price: 0,
+      rasid: 0,
+      quantity: 1
+    })
+  }, [])
+  useEffect(() => {
+      console.log(watch('date_created'));
+  }, [watch('date_created')])
 
   useEffect(() => {
     get_mesurement_type("measurement-types/");
@@ -109,7 +148,12 @@ function CustomerNewOrder({ CustomerInformation }) {
     Form.append("customer", CustomerInformation?.id);
     Form.append("measurement_type", orderStyle?.id);
     Form.append("status", "new");
-    Form.append("price", data.price);
+    Form.append("dokht_price", data.dokht_price);
+    Form.append("clothing_price", data.clothing_price);
+    Form.append("quantity", data.quantity);
+    Form.append("parcha", data.parcha);
+    Form.append("meters", data.meters);
+    Form.append("rasid", data.rasid);
     Form.append("date_delivery", data.date_delivery);
     Form.append("date_created", data.date_created);
     order ? patch_order("/orders/" + order?.id + '/', Form) : post_order("/orders/", Form);
@@ -119,6 +163,8 @@ function CustomerNewOrder({ CustomerInformation }) {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const [calendarValue, setCalendarValue] = useState(new Date())
 
   return (
     <>
@@ -162,13 +208,95 @@ function CustomerNewOrder({ CustomerInformation }) {
         </div>
         <div className="w-1/3 pr-3">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            قیمت:
+           قیمت دوخت:
           </label>
           <input
-            {...register("price", { required: true })}
+            {...register("dokht_price", { required: true })}
             type="text"
             className="w-full py-2 px-3 default-inputs focus:outline-none"
             placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+      </div>
+      <div className="flex mb-4">
+        <div className="w-1/3 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            پارچه:
+          </label>
+          <input
+            type="text"
+            {...register("parcha")}
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+        <div className="w-1/3 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            متراژ:
+          </label>
+          <input
+            type="text"
+            {...register("meters")}
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+        <div className="w-1/3 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+           قیمت پارچه:
+          </label>
+          <input
+            {...register("clothing_price")}
+            type="text"
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+      </div>
+      <div className="flex mb-4">
+        <div className="w-1/3 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            تعداد:
+          </label>
+          <input
+            type="text"
+            {...register("quantity", { required: true })}
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+        <div className="w-1/3 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            رسید:
+          </label>
+          <input
+            type="text"
+            {...register("rasid", { required: true })}
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+        <div className="w-1/6 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            قیمت کل:
+          </label>
+          <input
+            type="text"
+            disabled
+            {...register("grand_total", { required: true })}
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
+            placeholder="برای ویرایش کلیک کنید."
+          />
+        </div>
+        <div className="w-1/6 pr-3">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+           الباقی:
+          </label>
+          <input
+            disabled
+            {...register("al_baghi", { required: true })}
+            type="text"
+            className="w-full py-2 px-3 default-inputs focus:outline-none"
           />
         </div>
       </div>

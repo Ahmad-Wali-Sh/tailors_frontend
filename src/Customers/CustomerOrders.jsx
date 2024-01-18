@@ -61,7 +61,7 @@ function CustomerOrderItem({order , CustomerInformation, num, setTrigger}) {
         <h4 onClick={() => openModal()}>{order.measurements_name}</h4>
         <h4 onClick={() => openModal()}>{order.date_created}</h4>
         <h4 onClick={() => openModal()}>{order.date_delivery}</h4>
-        <h4 onClick={() => openModal()}>{order.price}</h4>
+        <h4 onClick={() => openModal()}>{order.grand_total}</h4>
         <h4>
         <input type='checkbox' className="order-checkbox" defaultChecked={order.archieved} onClick={(e) => archiveOrder(e.target.checked)}></input>
         </h4>

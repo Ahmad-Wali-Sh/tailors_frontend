@@ -1,8 +1,13 @@
 import React from 'react'
+import InputSettings from './InputSettings'
+import TailorShopSettings from './TailorShopSettings'
 
 function Settings() {
   return (
-    <div>Settings</div>
+    <div className='new-container'>
+        <TailorShopSettings />
+        <InputSettings />
+    </div>
   )
 }
 
