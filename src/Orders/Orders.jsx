@@ -85,7 +85,7 @@ function Orders() {
 
   useEffect(()=> {
     console.log(fromattedDate);
-    get_orders(`/orders/?date_delivery_min=${jalalitoday}&archieved=${archieved ? '' : archieved}`)
+    get_orders(`/orders/?date_delivery_min=${jalalitoday}&archieved=${archieved ? '' : archieved}&ordering=date_delivery`)
   }, [trigger, archieved])
 
   return (

@@ -78,7 +78,7 @@ function CustomerOrders({ CustomerInformation }) {
 
   useEffect(() => {
     CustomerInformation?.id &&
-      get_customer_orders("/orders/?customer=" + CustomerInformation?.id);
+      get_customer_orders("/orders/?customer=" + CustomerInformation?.id + '&ordering=date_delivery');
       console.log('triggerd');
   }, [CustomerInformation?.id, trigger]);
 
