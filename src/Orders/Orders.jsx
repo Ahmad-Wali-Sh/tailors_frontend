@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import { useReactToPrint } from "react-to-print";
 import { PrintForm } from "../Customers/CustomerNewOrder";
 import useApi from "../Services/AxiosInstance";
+import moment from "jalali-moment";
 
 function CustomerOrderItem({order, num, setTrigger}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,9 +80,12 @@ function Orders() {
   nextDay.setDate(currentDate.getDate() + 1)
   const fromattedDate = nextDay.toISOString().split('T')[0]
 
+  const jalalitoday = moment(nextDay).format('jYYYY-jM-jD')
+  console.log(jalalitoday);
+
   useEffect(()=> {
     console.log(fromattedDate);
-    get_orders(`/orders/?date_delivery_min=${fromattedDate}&archieved=${archieved ? '' : archieved}`)
+    get_orders(`/orders/?date_delivery_min=${jalalitoday}&archieved=${archieved ? '' : archieved}`)
   }, [trigger, archieved])
 
   return (

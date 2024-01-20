@@ -4,9 +4,11 @@ import useApi from "../Services/AxiosInstance";
 import { useForm } from "react-hook-form";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
-import "Ahmad-Wali-Sh/jalaali-react-date-picker/lib/styles/index.css";
-import { InputDatePicker } from "Ahmad-Wali-Sh/jalaali-react-date-picker";
-import moment from 'jalali-moment';
+import {
+  DatePicker
+} from "react-advance-jalaali-datepicker";
+import jalaliMoment from 'jalali-moment';
+
 
 export const PrintForm = React.forwardRef((props, ref) => {
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
@@ -37,6 +39,13 @@ export const PrintForm = React.forwardRef((props, ref) => {
     return everyTwoArray;
   };
 
+  const jalaaliDate = jalaliMoment(order.date_delivery, 'jYYYY-jM-jD')
+  jalaaliDate.locale('fa');
+  const persianDayName = jalaaliDate.format('dddd');
+
+  const jalaaliDatecreated = jalaliMoment(order.date_created, 'jYYYY-jM-jD')
+  jalaaliDatecreated.locale('fa');
+  const persianDayNamecreated = jalaaliDatecreated.format('dddd');
   return (
     <div ref={ref}>
       <table className="print-table">
@@ -54,9 +63,9 @@ export const PrintForm = React.forwardRef((props, ref) => {
         </tr>
         <tr>
           <td>سفارش</td>
-          <td>{order.date_created}</td>
+          <td className="relative bottom-1">{order.date_created} <br/> {persianDayNamecreated}</td>
           <td>تحویل</td>
-          <td>{order.date_delivery}</td>
+          <td className="relative bottom-1">{order.date_delivery} <br/> {persianDayName}</td>
         </tr>
         <tr>
           <td>تعداد</td>
@@ -118,13 +127,28 @@ function CustomerNewOrder({ CustomerInformation }) {
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
 
   useEffect(() => {
-    get_tailors_info("/tailorshop");
+    get_tailors_info("/tailorshop/1/");
   }, []);
+
+  
+  const [createDate, setCreatedDate] = useState();
+  const [deliverDate, setDeliverDate] = useState()
+
+
+  useEffect(() => {
+    const currentDate = jalaliMoment();
+
+    setValue('dokht_price',tailorsInfo?.default_price )
+    // Set the created date to today
+    setCreatedDate(currentDate.format('jYYYY-jM-jD'));
+    const daysLater = currentDate.add(parseInt(tailorsInfo?.day_to_deliver), 'days');
+    tailorsInfo?.date_to_deliver ? setDeliverDate(tailorsInfo?.date_to_deliver) : setDeliverDate(daysLater.format('jYYYY-jM-jD')) 
+  },  [tailorsInfo])
 
   useEffect(() => {
     reset({
       grand_total:
-        parseFloat(watch("dokht_price")) * parseFloat(watch("quantity")) +
+        parseFloat(watch("dokht_price")) +
         parseFloat(watch("clothing_price")),
       al_baghi: watch("grand_total") - watch("rasid"),
     });
@@ -132,20 +156,15 @@ function CustomerNewOrder({ CustomerInformation }) {
     watch("rasid"),
     watch("dokht_price"),
     watch("clothing_price"),
-    watch("quantity"),
   ]);
 
   useEffect(() => {
     reset({
-      dokht_price: 400,
       clothing_price: 0,
       rasid: 0,
       quantity: 1,
     });
   }, []);
-  useEffect(() => {
-    console.log(watch("date_created"));
-  }, [watch("date_created")]);
 
   useEffect(() => {
     get_mesurement_type("measurement-types/");
@@ -154,6 +173,8 @@ function CustomerNewOrder({ CustomerInformation }) {
   useEffect(() => {
     setOrderStyle(mesurementsType?.results[0]);
   }, [mesurementsType]);
+
+
 
   const submitOrder = (data) => {
     const Form = new FormData();
@@ -166,8 +187,8 @@ function CustomerNewOrder({ CustomerInformation }) {
     Form.append("parcha", data.parcha);
     Form.append("meters", data.meters);
     Form.append("rasid", data.rasid);
-    Form.append("date_delivery", data.date_delivery);
-    Form.append("date_created", data.date_created);
+    Form.append("date_delivery", deliverDate);
+    Form.append("date_created", createDate);
     order
       ? patch_order("/orders/" + order?.id + "/", Form)
       : post_order("/orders/", Form);
@@ -178,13 +199,6 @@ function CustomerNewOrder({ CustomerInformation }) {
     content: () => componentRef.current,
   });
 
-  const [createDate, setCreatedDate] = useState()
-
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   return (
     <>
@@ -208,25 +222,32 @@ function CustomerNewOrder({ CustomerInformation }) {
             <label className="block text-gray-700 text-sm font-bold mb-2">
               تاریخ سفارش:
             </label>
-            {/* <input
-            type="date"
-            {...register("date_created", { required: true })}
-            className="w-full py-2 px-3 default-inputs focus:outline-none"
-            placeholder="برای ویرایش کلیک کنید."
-          /> */}
-          <InputDatePicker onChange={(e) => {
-            e ? setCreatedDate(moment(e)) : setCreatedDate('')
-            }} value={createDate || ''} />
+            <DatePicker
+              onChange={(unix, formated) => {
+                setCreatedDate(formated);
+              }}
+              controlValue={true}
+              containerClass={
+                "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+              }
+              preSelected={createDate}
+              cancelOnBackgroundClick={true}
+            />
           </div>
           <div className="w-1/3 pr-3">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               تاریخ تحویل:
             </label>
-            <input
-              type="date"
-              {...register("date_delivery", { required: true })}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
+            <DatePicker
+              onChange={(unix, formated) => {
+                setDeliverDate(formated);
+              }}
+              controlValue={true}
+              containerClass={
+                "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+              }
+              preSelected={deliverDate}
+              cancelOnBackgroundClick={true}
             />
           </div>
           <div className="w-1/3 pr-3">

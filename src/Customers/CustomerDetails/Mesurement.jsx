@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 function Mesurement({
@@ -13,6 +13,13 @@ function Mesurement({
   const fields = Object.entries(type.fields).map(([key, value]) => ({
     ...value,
   }));
+
+  const mydivRef = useRef(null)
+
+  const scrollToDiv = () => {
+    // Scroll to the top of the referenced div
+    mydivRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const [existingMeasures, setExistingMeasures] = useState();
 
@@ -62,13 +69,14 @@ function Mesurement({
           ? "new-container-finished"
           : ""
       }`}
+      ref={mydivRef}
     >
       <div className="new-header">
         <h2>اندازه:{type?.name}</h2>
       </div>
 
       <form>
-        <div className="mesure-form w-full grid grid-cols-2">
+        <div className="mesure-form w-full grid grid-cols-2" >
           {fields?.map((field, num) => (
             <div className="pr-3 mt-2" key={num}>
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -79,13 +87,16 @@ function Mesurement({
                 onKeyDown={(e) => {
                   e.target.value == "" && e.key === 'Tab' && setValue(`measurment.${type.name}.${field.name}`, field.default)
                 }}
+                onFocus={() => {
+                  scrollToDiv()
+                }}
                 type="text"
                 className="w-full py-2 px-3 default-inputs focus:outline-none"
                 placeholder="برای ویرایش کلیک کنید."
                 list='optionsList'
               />
               <datalist id='optionsList'>
-                  {field.list.map((item, index) => (
+                  {field?.list?.map((item, index) => (
                     <option key={index} value={item}>{item}</option>
                   ))}
               </datalist>

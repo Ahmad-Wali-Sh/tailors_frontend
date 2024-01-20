@@ -64,7 +64,7 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
           </div>
         </div>
         <div className="flex">
-          <div className="w-full pr-3">
+          {/* <div className="w-full pr-3">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               توضیحات:
             </label>
@@ -74,9 +74,8 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
             />
-          </div>
+          </div> */}
         </div>
-        <div className="new-footer">
           <button
             tabIndex={-1}
             onClick={submitPersonalInfo}
@@ -86,7 +85,6 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
           >
             {customerInfo ? "ویرایش" : "ثبت"}
           </button>
-        </div>
       </form>
     </div>
   );

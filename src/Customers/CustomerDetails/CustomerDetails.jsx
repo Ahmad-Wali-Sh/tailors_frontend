@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import PersonalForm from "./PersonalForm";
 import { useEffect } from "react";
 import useApi from "../../Services/AxiosInstance";
@@ -15,6 +15,8 @@ function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
     setValue,
     formState: { errors },
   } = useForm();
+
+  const mydiv = useRef(null)
 
   const { data: measurmentTypes, get: getMesureTypes } = useApi();
   useEffect(() => {
@@ -43,10 +45,19 @@ function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
     customerInfo
       ? patch_customer_info("customers/" + customerInfo.id + "/", Form, (res) => {
         parent_get_customer_details('customers/' + res.id)
+
       })
       : post_customer_info("customers/", Form, (res) => {
         parent_get_customer_details('customers/' + res.id)
       });
+  };
+
+  const scrollToDiv = () => {
+    // Scroll to the top of the referenced div
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const {
@@ -75,11 +86,13 @@ function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
           Form, () => {
             get_customer_details("/customers/" + customerInfo.id);
             parent_get_customer_details('/customers/' + customerInfo.id)
+            scrollToDiv()
           }
         )
       : post_customer_measuerment("/customer-measurements/", Form, () => {
         get_customer_details("/customers/" + customerInfo.id);
         parent_get_customer_details('/customers/' + customerInfo.id)
+        scrollToDiv()
       });
   };
   
@@ -89,7 +102,7 @@ function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
 
  
   return (
-    <div className="multistep-form">
+    <div className="multistep-form" ref={mydiv}>
       <PersonalForm
         register={register}
         submitPersonalInfo={handleSubmit(submitPersonalInfo)}
