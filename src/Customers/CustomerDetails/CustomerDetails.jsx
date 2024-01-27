@@ -110,7 +110,7 @@ function CustomerDetails({CustomerInformation, parent_get_customer_details}) {
         reset={reset}
       />
       {measurmentTypes?.results.map((type) => (
-        <Mesurement
+        type.required && <Mesurement
           key={type.name}
           type={type}
           customerMesurement={customerMesurement}

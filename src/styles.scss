@@ -26,6 +26,7 @@ body {
   transform-origin: top left;
   width: 111.6471%; /* Compensate for the scaled width */
   height: 111.6471%; /* Compensate for the scaled height */
+  user-select: none;
 }
 
 .logo {
@@ -57,6 +58,14 @@ body {
     &:disabled {
       background-color: color.scale($color_grey, $lightness: 70%);
     }
+  }
+}
+
+.default-select-button {
+  background-color: $color_feeler;
+  
+  &:hover {
+    background-color: color.scale($color_feeler, $lightness: 20%);
   }
 }
 

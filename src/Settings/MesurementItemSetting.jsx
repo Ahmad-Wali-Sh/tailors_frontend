@@ -98,14 +98,15 @@ const MyItem = ({
 };
 
 function MesurementItemSetting({ type, setTrigger }) {
-  const initialField = { name: "", default: "", list: []};
+  const initialField = { name: "", default: "", list: [] };
   const [fields, setFields] = useState([]);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, watch } = useForm();
 
   useEffect(() => {
     setFields(type.fields);
     reset({
       name: type?.name,
+      required: type?.required
     });
   }, [type]);
 
@@ -114,6 +115,7 @@ function MesurementItemSetting({ type, setTrigger }) {
   const editMesure = (data) => {
     const Form = new FormData();
     Form.append("name", data.name);
+    Form.append("required", data.required);
     Form.append("fields", JSON.stringify(fields));
     patch("/measurement-types/" + type.id + "/", Form, () => {
       setTrigger(new Date());
@@ -154,59 +156,115 @@ function MesurementItemSetting({ type, setTrigger }) {
     setFields(updatedFields);
   };
 
+  const setDefault = () => {
+    watch("name") == "افغانی" &&
+      setFields([
+        { name: "قد", default: "", list: [] },
+        { name: "مدل دامن", default: "", list: [] },
+        { name: "آستین", default: "", list: [] },
+        { name: "مدل آستین", default: "", list: [] },
+        { name: "شانه", default: "", list: [] },
+        { name: "مدل دکمه", default: "", list: [] },
+        { name: "بغل", default: "", list: [] },
+        { name: "مدل یخن", default: "", list: [] },
+        { name: "قد شلوار", default: "", list: [] },
+        { name: "مدل برتمان", default: "", list: [] },
+        { name: "دم پارچه", default: "", list: [] },
+        { name: "کیسه تمان", default: "", list: [] },
+        { name: "توضیحات", default: "", list: [] },
+        { name: "کیسه رو", default: "", list: [] },
+      ]);
+    watch("name") == "دریشی" &&
+      setFields([
+        { name: "شانه", default: "", list: [] },
+        { name: "قد", default: "", list: [] },
+        { name: "آستین", default: "", list: [] },
+        { name: "بغل", default: "", list: [] },
+        { name: "کمر", default: "", list: [] },
+        { name: "باسن", default: "", list: [] },
+        { name: "ران", default: "", list: [] },
+        { name: "قد شلوار", default: "", list: [] },
+        { name: "دم پا", default: "", list: [] },
+        { name: "مدل", default: "", list: [] },
+      ]);
+  };
+
   return (
     <>
       <div className="new-header text-white">{type?.name}</div>
-        <div className="new-container">
-          <div className="new-form w-full grid grid-cols-3">
-            <div className="pr-3 mt-2">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                نام اندازه گیری:
-              </label>
-              <input
-                {...register("name", { required: true })}
-                type="text"
-                className="w-full py-2 px-3 default-inputs focus:outline-none"
-                placeholder="برای ویرایش کلیک کنید."
-              />
-            </div>
-          </div>
-          <label className="block mt-3 mr-3 text-gray-700 text-sm font-bold mb-2">
-            مشخصات:
-          </label>
-          <div className="new-form w-full grid grid-cols-2">
-            {fields?.map((arr, index) => (
-              <MyItem
-                index={index}
-                arr={arr}
-                handleEditField={handleEditField}
-                handleEditList={handleEditList}
-                handleDeleteField={handleDeleteField}
-                handleAddListItem={handleAddListItem}
-                handleDeleteListItem={handleDeleteListItem}
-              />
-            ))}
-            <button
-              onClick={handleAddField}
+      <div className="new-container">
+        <div className="new-form w-full grid grid-cols-5 ">
+          <div className="pr-3 mt-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              نام اندازه گیری:
+            </label>
+            <input
+              {...register("name", { required: true })}
               type="text"
-              className="plus-button mt-4 mr-2"
-            >
-              +
-            </button>
+              className="w-full py-2 px-3 default-inputs focus:outline-none"
+              placeholder="برای ویرایش کلیک کنید."
+            />
           </div>
-          <div className="new-footer">
-            <button 
-              onClick={handleSubmit(editMesure)}
-              tabIndex={-1}
-              type="submit"
-              className={
-                "bg-emerald-900 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"
-              }
-            >
-              ذخیره
-            </button>
+          <div className="pr-3 mt-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+             برگشت به حالت پیش فرض:
+            </label>
+            <input
+              type="button"
+              onClick={() => setDefault()}
+              className="w-full py-2 px-3 focus:outline-none rounded-xl default-select-button cursor-pointer text-white"
+              placeholder="برای ویرایش کلیک کنید."
+              value='برگشت به حالت پیش فرض'
+            />
+          </div>
+          <div className="pr-3 mt-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+             وضعیت:
+            </label>
+            <input
+              {...register("required")}
+              type="checkbox"
+              className="w-5 mt-2 mr-3 py-2 px-3 default-inputs focus:outline-none h-5"
+              placeholder="برای ویرایش کلیک کنید."
+            />
           </div>
         </div>
+        <label className="block mt-3 mr-3 text-gray-700 text-sm font-bold mb-2">
+          مشخصات:
+        </label>
+        <div className="new-form w-full grid grid-cols-2">
+          {fields?.map((arr, index) => (
+            <MyItem
+              index={index}
+              arr={arr}
+              handleEditField={handleEditField}
+              handleEditList={handleEditList}
+              handleDeleteField={handleDeleteField}
+              handleAddListItem={handleAddListItem}
+              handleDeleteListItem={handleDeleteListItem}
+            />
+          ))}
+          <button
+            onClick={handleAddField}
+            type="text"
+            className="plus-button mt-4 mr-2"
+          >
+            +
+          </button>
+        </div>
+        <div className="new-footer">
+          <button
+            onClick={handleSubmit(editMesure)}
+            tabIndex={-1}
+            type="submit"
+            className={
+              "bg-emerald-900 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"
+            }
+          >
+            ذخیره
+          </button>
+        </div>
+      </div>
     </>
   );
 }

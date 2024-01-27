@@ -14,11 +14,11 @@ function Mesurement({
     ...value,
   }));
 
-  const mydivRef = useRef(null)
+  const mydivRef = useRef(null);
 
   const scrollToDiv = () => {
     // Scroll to the top of the referenced div
-    mydivRef.current.scrollIntoView({ behavior: 'smooth' });
+    mydivRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const [existingMeasures, setExistingMeasures] = useState();
@@ -44,10 +44,9 @@ function Mesurement({
         (mesurementobject?.[0]?.measurement_type == type?.id &&
           mesurementobject?.[0].data[fieldName]) ||
         "";
-      fieldValue &&
-        mesurementobject &&
-        customerDetails?.measurements ?
-        setValue(`measurment.${type.name}.${field.name}`, fieldValue) : setValue(`measurment.${type.name}.${field.name}`, '');
+      fieldValue && mesurementobject && customerDetails?.measurements
+        ? setValue(`measurment.${type.name}.${field.name}`, fieldValue)
+        : setValue(`measurment.${type.name}.${field.name}`, "");
     });
   }, [
     fields,
@@ -61,6 +60,9 @@ function Mesurement({
   const submitwithType = (data) => {
     submitCustomerMeasurement(data, type);
   };
+
+
+
 
   return (
     <div
@@ -83,29 +85,37 @@ function Mesurement({
                 {field.name}:
               </label>
               <input
+                tabIndex={num % 2 === 0 ? num + 1 : ""}
                 {...register(`measurment.${type.name}.${field.name}`)}
                 onKeyDown={(e) => {
-                  e.target.value == "" && e.key === 'Tab' && setValue(`measurment.${type.name}.${field.name}`, field.default)
+                  e.target.value == "" &&
+                    e.key === "Tab" &&
+                    setValue(
+                      `measurment.${type.name}.${field.name}`,
+                      field.default
+                    );
                 }}
                 onFocus={() => {
-                  scrollToDiv()
+                  scrollToDiv();
                 }}
                 type="text"
                 className="w-full py-2 px-3 default-inputs focus:outline-none"
                 placeholder="برای ویرایش کلیک کنید."
-                list='optionsList'
+                list="optionsList"
               />
-              <datalist id='optionsList'>
-                  {field?.list?.map((item, index) => (
-                    <option key={index} value={item}>{item}</option>
-                  ))}
+              <datalist id="optionsList">
+                {field?.list?.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
               </datalist>
             </div>
           ))}
         </div>
         <div className="new-footer">
           <button
-          tabIndex={-1}
+            tabIndex={-1}
             onClick={handleSubmit(submitwithType)}
             className={`" ${
               existingMeasures?.[0]?.measurement_type == type?.id
