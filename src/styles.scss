@@ -328,17 +328,38 @@ body {
 
 .plus-button {
   border-radius: 4rem !important;
-  background-color: $color_grey !important;
+  background-color: $color_feeler !important;
   color: $color_back !important;
   text-align: center !important;
-  font-size: 1.5rem !important;
-  width: 2rem !important;
-  height: 1.9rem !important;
+  width: 3rem !important;
+  height: 1.5rem !important;
   padding-top:0rem !important;
   cursor: pointer !important;
   transition: background-color 0.3s !important;
 
   &:hover {
-    background-color: color.scale($color_grey, $lightness: 50%);
+    background-color: color.scale($color_feeler, $lightness: 50%) !important;
+  }
+}
+
+.plus-for-new {
+  background-color: $color_grey;
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
+  right: 2.3rem;
+  border-radius: 3rem;
+  margin-top: 0.2rem;
+  text-align: center;
+  font-size: 4rem;
+  scale: 0.75;
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+
+  cursor: pointer;
+  &:hover {
+    background-color: color.scale($color_grey, $lightness: 50%) !important;
+    color: white
   }
 }

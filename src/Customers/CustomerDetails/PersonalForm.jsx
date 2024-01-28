@@ -31,6 +31,7 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
             </label>
             <input
               type="text"
+              tabIndex={1}
               {...register("personal.first_name", {
                 required: "نام ضروری است.",
               })}
@@ -46,6 +47,7 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
               {...register("personal.last_name", {
                 required: "نام فامیلی ضروری است",
               })}
+              tabIndex={2}
               type="text"
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
@@ -57,9 +59,22 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
             </label>
             <input
               type="text"
+              tabIndex={3}
               {...register("personal.contact", { required: "شماره ضروری است" })}
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
+              onKeyDown={(e) => {
+                e.key === 'Tab' && submitPersonalInfo()
+                const element = document.querySelector('[tabIndex="4"]');
+                
+                // Focus on the element if it exists
+                if (element) {
+                  setTimeout(() => {
+                    
+                    element.focus();
+                  }, 200);
+                }
+              }}
             />
           </div>
         </div>
@@ -77,7 +92,6 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
           </div> */}
         </div>
           <button
-            tabIndex={-1}
             onClick={submitPersonalInfo}
             className={`" ${
               customerInfo ? "bg-blue-900" : "bg-emerald-900"

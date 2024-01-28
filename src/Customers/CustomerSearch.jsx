@@ -2,13 +2,15 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 
-function CustomerSearch({ resetToNew, selectedCustomer }) {
-  const [UniqueCach, setUniqueCach] = useState(new Date())
-  const asyncPaginateRef = useRef(null)
+function CustomerSearch({ resetToNew, selectedCustomer, deleteCustomer }) {
+  const [UniqueCach, setUniqueCach] = useState(new Date());
+  const asyncPaginateRef = useRef(null);
   const handleLoadOptions = async (search, loadedOptions) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/customers/?search=${search ? search : 'alskdfdj;klf'}`
+        `http://127.0.0.1:8000/api/customers/?search=${
+          search ? search : "alskdfdj;klf"
+        }`
       );
       const options = response?.data.results.map((item) => ({
         first_name: item.first_name,
@@ -44,7 +46,7 @@ function CustomerSearch({ resetToNew, selectedCustomer }) {
 
   const handleselectedCustomer = (data) => {
     setSelectedCustomer(data);
-    setUniqueCach(new Date())
+    setUniqueCach(new Date());
   };
 
   useEffect(() => {
@@ -56,7 +58,7 @@ function CustomerSearch({ resetToNew, selectedCustomer }) {
       id: selectedCustomerer?.id || "",
       value: "",
     });
-  }, [selectedCustomerer])
+  }, [selectedCustomerer]);
 
   const clearSearchValue = () => {
     setValue((prevValue) => ({
@@ -83,44 +85,58 @@ function CustomerSearch({ resetToNew, selectedCustomer }) {
   );
 
   return (
-    <div className="new-container">
-      <div className="flex w-full align-middle">
-        <div className="w-full">
-          <label className="block mb-2">جستوجو: </label>
-          <AsyncPaginate
-            ref={asyncPaginateRef}
-            loadOptions={handleLoadOptions}
-            placeholder="جستوجو توسط اسم. شماره. آی دی یا توضیحات"
-            autoFocus
-            onChange={(selectedOption) => {
-              selectedCustomer(selectedOption);
-              handleselectedCustomer(selectedOption);
+    <>
+      <div
+        className="plus-for-new"
+        onClick={() => {
+          resetToNew();
+          asyncPaginateRef?.current?.setValue("");
+          setSelectedCustomer({});
+          setUniqueCach(new Date());
+          clearSearchValue();
+        }}
+      >
+        +
+      </div>
+      <div className="new-container">
+        <div className="flex w-full align-middle">
+          <div className="w-full">
+            <label className="block mb-2">جستوجو: </label>
+            <AsyncPaginate
+              ref={asyncPaginateRef}
+              loadOptions={handleLoadOptions}
+              placeholder="جستوجو توسط اسم. شماره. آی دی یا توضیحات"
+              autoFocus
+              onChange={(selectedOption) => {
+                selectedCustomer(selectedOption);
+                handleselectedCustomer(selectedOption);
+              }}
+              value={value}
+              formatOptionLabel={formatOptionLabel}
+              autoClearSearchValue={true}
+              tabIndex={1}
+              defaultOptions={[]}
+              filterOption={() => true}
+              controlShouldRenderValue={true}
+              cacheUniq={UniqueCach}
+              key={UniqueCach}
+            />
+          </div>
+          <div
+            className="w-16 mt-10 mr-5 plus-button"
+            onClick={() => {
+              deleteCustomer()
+              asyncPaginateRef?.current?.setValue("");
+              setSelectedCustomer({});
+              setUniqueCach(new Date());
+              clearSearchValue();
             }}
-            value={value}
-            formatOptionLabel={formatOptionLabel}
-            autoClearSearchValue={true}
-            defaultOptions={[]} 
-            filterOption={() => true}
-            controlShouldRenderValue={true}
-            cacheUniq={UniqueCach}
-            key={UniqueCach}
-          />
-        </div>
-        <div
-          className="w-16 mt-10 mr-5 text-bold text-xl plus-button"
-          onClick={() => {
-            resetToNew()
-            asyncPaginateRef?.current?.setValue('')
-            setSelectedCustomer({})
-            setUniqueCach(new Date())
-            clearSearchValue()
-          }
-          }
-        >
-          +
+          >
+            حذف
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

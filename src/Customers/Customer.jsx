@@ -12,15 +12,21 @@ function Customer() {
   const goToStep = (step) => {
     setCurrentStep(step);
   };
-  const { data: customerDetails, get: get_customer_details, dataSeter: customerDetailsSet } = useApi();
+  const { data: customerDetails, get: get_customer_details, dataSeter: customerDetailsSet, deleter } = useApi();
 
   const resetToNew = () => {
     customerDetailsSet(new Date())
     setTimeout(() => {
       customerDetailsSet(null)
     },200)
+    setCurrentStep(1)
   }
 
+
+  const deleteCustomer = () => {
+    customerDetails.id && deleter('/customers/' + customerDetails.id + '/')
+    setCurrentStep(1)
+  }
   const selectedCustomer = (data) => {
     customerDetailsSet(data)
     console.log(data);
@@ -28,7 +34,7 @@ function Customer() {
 
   return (
     <>
-      <CustomerSearch resetToNew={resetToNew} selectedCustomer={selectedCustomer}/>
+      <CustomerSearch resetToNew={resetToNew} selectedCustomer={selectedCustomer} deleteCustomer={deleteCustomer}/>
       <CustomerButtons currentStep={currentStep} onStepClick={goToStep} />
       {currentStep === 1 && <CustomerDetails CustomerInformation={customerDetails} parent_get_customer_details={get_customer_details}/>}
       {currentStep === 2 && <CustomerNewOrder CustomerInformation={customerDetails}/>}

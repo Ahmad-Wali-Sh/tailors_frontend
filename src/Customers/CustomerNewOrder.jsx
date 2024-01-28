@@ -202,6 +202,7 @@ function CustomerNewOrder({ CustomerInformation }) {
 
   return (
     <>
+    <form onSubmit={handleSubmit(submitOrder)}>
       <div className="new-container">
         <div className="new-header">انتخاب نوعیت سفارش</div>
         <div className="select-section">
@@ -347,7 +348,7 @@ function CustomerNewOrder({ CustomerInformation }) {
         <div className="new-footer">
           <button
             tabIndex={-1}
-            onClick={handleSubmit(submitOrder)}
+            type='submit'
             className={`${
               order?.id ? "bg-blue-900" : "bg-emerald-900"
             } text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
@@ -357,6 +358,7 @@ function CustomerNewOrder({ CustomerInformation }) {
           {order?.id && (
             <button
               tabIndex={-1}
+              
               onClick={handlePrint}
               className={`bg-blue-600 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
             >
@@ -365,6 +367,7 @@ function CustomerNewOrder({ CustomerInformation }) {
           )}
         </div>
       </div>
+      </form>
       {order?.id && (
         <div className="new-container print-container">
           <PrintForm

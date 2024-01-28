@@ -61,9 +61,6 @@ function Mesurement({
     submitCustomerMeasurement(data, type);
   };
 
-
-
-
   return (
     <div
       className={`new-container ${
@@ -78,14 +75,19 @@ function Mesurement({
       </div>
 
       <form>
-        <div className="mesure-form w-full grid grid-cols-2" >
+        <div className="mesure-form w-full grid grid-cols-2">
           {fields?.map((field, num) => (
             <div className="pr-3 mt-2" key={num}>
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 {field.name}:
               </label>
               <input
-                tabIndex={num % 2 === 0 ? num + 1 : ""}
+                disabled={customerDetails?.id ? false : true}
+                tabIndex={
+                  num % 2 === 0
+                    ? num / 2 + 1 + 3
+                    : Math.ceil(fields?.length / 2) + (num - 1) / 2 + 1 + 3
+                }
                 {...register(`measurment.${type.name}.${field.name}`)}
                 onKeyDown={(e) => {
                   e.target.value == "" &&
