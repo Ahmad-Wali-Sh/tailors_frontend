@@ -33,6 +33,28 @@ function CustomerSearch({ resetToNew, selectedCustomer, deleteCustomer }) {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check if the key combination matches the desired shortcut
+      if (event.ctrlKey && (event.key === 'f' || event.key === 'F' || event.key === 'ب')) {
+        event.preventDefault()
+        const element = document.querySelector('[tabIndex="1"]');
+        // Focus on the element if it exists
+        if (element) {
+          element.focus();
+        }
+      }
+    };
+
+    // Add event listener for keydown event
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up by removing the event listener when component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []); 
+
   const [value, setValue] = useState({
     first_name: "",
     last_name: "",

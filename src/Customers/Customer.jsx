@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomerDetails from "./CustomerDetails/CustomerDetails";
 import useApi from "../Services/AxiosInstance";
 import CustomerButtons from "./CustomerButtons";
@@ -21,6 +21,37 @@ function Customer() {
     },200)
     setCurrentStep(1)
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check if the key combination matches the desired shortcut
+      
+      if (event.ctrlKey && (event.key === '1' || event.key === '1')) {
+        event.preventDefault()
+        setCurrentStep(1)
+      }
+      if (event.ctrlKey && (event.key === '2' || event.key === '2')) {
+        event.preventDefault()
+        setCurrentStep(2)
+      }
+      if (event.ctrlKey && (event.key === '3' || event.key === '3')) {
+        event.preventDefault()
+        setCurrentStep(3)
+      }
+      if (event.ctrlKey && (event.key === 'e' || event.key === 'E' || event.key === 'ث')) {
+        event.preventDefault()
+        resetToNew()
+      }
+    };
+
+    // Add event listener for keydown event
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up by removing the event listener when component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []); 
 
 
   const deleteCustomer = () => {

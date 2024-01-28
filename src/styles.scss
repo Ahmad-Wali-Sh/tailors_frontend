@@ -363,3 +363,13 @@ body {
     color: white
   }
 }
+
+.shortcuts-container {
+  display: grid;
+  justify-content: space-evenly;
+}
+.shortcut-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 20rem 20rem;
+}

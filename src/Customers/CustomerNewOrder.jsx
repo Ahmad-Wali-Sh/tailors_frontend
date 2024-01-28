@@ -174,6 +174,23 @@ function CustomerNewOrder({ CustomerInformation }) {
     setOrderStyle(mesurementsType?.results[0]);
   }, [mesurementsType]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check if the key combination matches the desired shortcut
+      if (event.ctrlKey && (event.key === 'ح' || event.key === 'p' || event.key === 'P')) {
+        event.preventDefault()
+        handlePrint()
+      }
+    };
+
+    // Add event listener for keydown event
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up by removing the event listener when component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
 
   const submitOrder = (data) => {
@@ -358,7 +375,6 @@ function CustomerNewOrder({ CustomerInformation }) {
           {order?.id && (
             <button
               tabIndex={-1}
-              
               onClick={handlePrint}
               className={`bg-blue-600 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
             >

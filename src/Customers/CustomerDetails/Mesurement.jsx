@@ -83,10 +83,10 @@ function Mesurement({
               </label>
               <input
                 disabled={customerDetails?.id ? false : true}
-                tabIndex={
-                  num % 2 === 0
+                tabIndex={ type?.name === 'افغانی' &&
+                  (num % 2 === 0
                     ? num / 2 + 1 + 3
-                    : Math.ceil(fields?.length / 2) + (num - 1) / 2 + 1 + 3
+                    : Math.ceil(fields?.length / 2) + (num - 1) / 2 + 1 + 3)
                 }
                 {...register(`measurment.${type.name}.${field.name}`)}
                 onKeyDown={(e) => {
