@@ -20,7 +20,7 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
       }`}
     >
       <div className="new-header">
-        <h2>مشتری جدید - اطلاعات شخصی</h2>
+        <h2>اطلاعات شخصی</h2>
       </div>
 
       <form className="new-form">
