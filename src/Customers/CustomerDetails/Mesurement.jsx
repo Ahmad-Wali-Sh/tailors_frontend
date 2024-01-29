@@ -103,9 +103,9 @@ function Mesurement({
                 type="text"
                 className="w-full py-2 px-3 default-inputs focus:outline-none"
                 placeholder="برای ویرایش کلیک کنید."
-                list="optionsList"
+                list={field.name}
               />
-              <datalist id="optionsList">
+              <datalist id={field.name}>
                 {field?.list?.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
