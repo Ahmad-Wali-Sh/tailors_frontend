@@ -26,15 +26,15 @@ function Customer() {
     const handleKeyDown = (event) => {
       // Check if the key combination matches the desired shortcut
       
-      if (event.ctrlKey && (event.key === '1' || event.key === '1')) {
+      if (event.ctrlKey && (event.key === '1' || event.key === '۱')) {
         event.preventDefault()
         setCurrentStep(1)
       }
-      if (event.ctrlKey && (event.key === '2' || event.key === '2')) {
+      if (event.ctrlKey && (event.key === '2' || event.key === '۲')) {
         event.preventDefault()
         setCurrentStep(2)
       }
-      if (event.ctrlKey && (event.key === '3' || event.key === '3')) {
+      if (event.ctrlKey && (event.key === '3' || event.key === '۳')) {
         event.preventDefault()
         setCurrentStep(3)
       }
