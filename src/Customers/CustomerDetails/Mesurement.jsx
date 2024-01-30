@@ -83,7 +83,8 @@ function Mesurement({
               </label>
               <input
                 disabled={customerDetails?.id ? false : true}
-                tabIndex={ type?.name === 'افغانی' &&
+                tabIndex={
+                  type?.name === "افغانی" &&
                   (num % 2 === 0
                     ? num / 2 + 1 + 3
                     : Math.ceil(fields?.length / 2) + (num - 1) / 2 + 1 + 3)
@@ -96,6 +97,11 @@ function Mesurement({
                       `measurment.${type.name}.${field.name}`,
                       field.default
                     );
+
+                  fields[fields.length - 1].name == field.name &&
+                    !e.shiftKey &&
+                    e.key == "Tab" &&
+                    e.preventDefault();
                 }}
                 onFocus={() => {
                   scrollToDiv();

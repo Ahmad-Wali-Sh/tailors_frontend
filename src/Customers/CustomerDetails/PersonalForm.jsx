@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 
 function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
   useEffect(() => {
-    console.log(customerInfo);
     reset({
       personal: {
         first_name: customerInfo?.first_name || '',
         last_name: customerInfo?.last_name || '',
         contact: customerInfo?.contact || '',
         description: customerInfo?.description || '',
+        id: customerInfo?.id || '',
       },
     });
   }, [customerInfo]);
@@ -68,13 +68,25 @@ function PersonalForm({ register, submitPersonalInfo, customerInfo, reset }) {
                 const element = document.querySelector('[tabIndex="4"]');
                 
                 // Focus on the element if it exists
-                if (element) {
+                if (element && (e.key === 'Tab' || e.key === 'Enter')) {
                   setTimeout(() => {
                     
                     element.focus();
-                  }, 200);
+                  }, 500);
                 }
               }}
+            />
+          </div>
+          <div className="w-1/3 pr-3">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              آی دی:
+            </label>
+            <input
+              type="text"
+              disabled
+              {...register("personal.id")}
+              className="w-full py-2 px-3 default-inputs focus:outline-none"
+              placeholder=""
             />
           </div>
         </div>

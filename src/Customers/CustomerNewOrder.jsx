@@ -93,14 +93,30 @@ export const PrintForm = React.forwardRef((props, ref) => {
         </tr>
         <h5>آدرس: {tailorsInfo?.results?.[0]?.address}</h5>
       </table>
-      <table className="print-table">
-        <div>
+      <div style={{ pageBreakAfter: "always", borderTop: "1px dashed grey"}} className='print-section'></div>
+      <table className="print-table mt-3">
+        <div className="mt-3">
           <h3>{tailorsInfo?.results?.[0]?.name}</h3>
-          <small>id: {customer.id}</small>
           <tr className="flex">
             <h3>محترم:</h3>
             <h3>
               {customer.first_name} {customer.last_name}
+            </h3>
+            <h3>آی دی: </h3>
+            <td className="relative bottom-1">{customer.id}</td>
+          </tr>
+          <tr className="flex">
+            <h3>سفارش:</h3>
+            <h3>
+            <td className="relative bottom-1">{order.date_created} <br/> {persianDayNamecreated}</td>
+            </h3>
+            <h3>تحویل: </h3>
+            <td className="relative bottom-1">{order.date_delivery} <br/> {persianDayName}</td>
+          </tr>
+          <tr className="flex">
+            <h3>تعداد:</h3>
+            <h3>
+            <td>{order.quantity}</td>
             </h3>
             <h3>قیمت کل: </h3>
             <h3>{order.grand_total}</h3>

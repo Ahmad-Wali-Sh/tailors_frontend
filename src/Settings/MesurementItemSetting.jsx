@@ -106,7 +106,7 @@ function MesurementItemSetting({ type, setTrigger }) {
     setFields(type.fields);
     reset({
       name: type?.name,
-      required: type?.required
+      required: type?.required,
     });
   }, [type]);
 
@@ -167,12 +167,14 @@ function MesurementItemSetting({ type, setTrigger }) {
         { name: "مدل دکمه", default: "", list: [] },
         { name: "بغل", default: "", list: [] },
         { name: "مدل یخن", default: "", list: [] },
-        { name: "قد شلوار", default: "", list: [] },
+        { name: "دامن", default: "", list: [] },
         { name: "مدل برتمان", default: "", list: [] },
-        { name: "دم پارچه", default: "", list: [] },
+        { name: "یخن", default: "", list: [] },
         { name: "کیسه تمان", default: "", list: [] },
-        { name: "توضیحات", default: "", list: [] },
+        { name: "تمبان", default: "", list: [] },
         { name: "کیسه رو", default: "", list: [] },
+        { name: "دم پارچه", default: "", list: [] },
+        { name: "توضیحات", default: "", list: [] },
       ]);
     watch("name") == "دریشی" &&
       setFields([
@@ -192,8 +194,8 @@ function MesurementItemSetting({ type, setTrigger }) {
   return (
     <>
       <div className="new-header text-white">{type?.name}</div>
-      <div className="new-container">
-        <div className="new-form w-full grid grid-cols-5 ">
+      <div className="new-container mx-auto">
+        <div className="w-full grid grid-cols-5 mr-12">
           <div className="pr-3 mt-2">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               نام اندازه گیری:
@@ -201,31 +203,32 @@ function MesurementItemSetting({ type, setTrigger }) {
             <input
               {...register("name", { required: true })}
               type="text"
+              disabled
               className="w-full py-2 px-3 default-inputs focus:outline-none"
               placeholder="برای ویرایش کلیک کنید."
             />
           </div>
           <div className="pr-3 mt-2">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-             برگشت به حالت پیش فرض:
-            </label>
-            <input
-              type="button"
-              onClick={() => setDefault()}
-              className="w-full py-2 px-3 focus:outline-none rounded-xl default-select-button cursor-pointer text-white"
-              placeholder="برای ویرایش کلیک کنید."
-              value='برگشت به حالت پیش فرض'
-            />
-          </div>
-          <div className="pr-3 mt-2">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-             وضعیت:
+              وضعیت:
             </label>
             <input
               {...register("required")}
               type="checkbox"
               className="w-5 mt-2 mr-3 py-2 px-3 default-inputs focus:outline-none h-5"
               placeholder="برای ویرایش کلیک کنید."
+            />
+          </div>
+          <div className="pr-3 mt-2 col-start-5 col-span-1 ml-10">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              برگشت به حالت پیش فرض:
+            </label>
+            <input
+              type="button"
+              onClick={() => setDefault()}
+              className="w-full py-2 px-3 focus:outline-none rounded-xl default-select-button cursor-pointer text-white"
+              placeholder="برای ویرایش کلیک کنید."
+              value="برگشت"
             />
           </div>
         </div>

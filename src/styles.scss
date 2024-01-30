@@ -46,6 +46,33 @@ body {
   background-color: #3c69a5;
 }
 
+@media print {
+    .print-section {
+      page-break-after: always;
+    }
+}
+
+.customer-item {
+  display: grid;
+  grid-template-columns: 7% repeat(6, 16%);
+  text-align: center;
+  background-color: color.scale($color_grey, $lightness: 50%);
+  height: 3rem;
+  padding-top: 0.8rem;
+  cursor: pointer;
+  color: color.scale($color_darkprime, $lightness: 20%);
+  border-bottom: 1px solid $color_darkprime;
+  margin-bottom: 1rem;
+
+  &:hover {
+    color: color.scale($color_darkprime, $lightness: 0%);
+  }
+
+  h4 {
+    direction: ltr;
+  }
+}
+
 
 .dates-container {
   input {
@@ -62,7 +89,7 @@ body {
 }
 
 .default-select-button {
-  background-color: $color_feeler;
+  background-color: $color_grey;
   
   &:hover {
     background-color: color.scale($color_feeler, $lightness: 20%);
@@ -260,6 +287,12 @@ body {
   margin-left: auto
 }
 
+.mesurements-forms {
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 14rem 14rem;
+}
+
 .custom-modal {
   background-color: #fff;
   padding: 20px;
@@ -267,7 +300,7 @@ body {
   position: absolute;
   top: 0%;
   max-height: 100vh;
-  overflow: scroll;
+  overflow: auto;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   direction: rtl;
@@ -288,6 +321,7 @@ body {
     }
   }
 }
+
 
 .custom-overlay {
   background-color: rgba(0, 0, 0, 0.5);
@@ -364,6 +398,10 @@ body {
   }
 }
 
+.left-container{
+  direction: ltr;
+}
+
 .shortcuts-container {
   display: grid;
   justify-content: space-evenly;
@@ -372,4 +410,31 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: 20rem 20rem;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-buttons {
+  text-align: center;
+  display: flex;
+  gap: 0.4rem
+}
+
+.paginate-button {
+  font-weight: bold;
+  font-size: 1.3rem;
+  border: 1px solid grey;
+  width: 3rem;
+  scale: 0.85;
+  padding: 0.4rem;
+  border-radius: 4rem;
+  cursor: pointer;
+  color:rgba(0, 0, 0, 0.604);
+  &:hover {
+    background-color: white;
+
+  }
 }

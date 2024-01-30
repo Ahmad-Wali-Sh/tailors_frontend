@@ -5,6 +5,7 @@ import Home from "./Home";
 import Customer from "./Customers/Customer";
 import Orders from "./Orders/Orders";
 import Settings from "./Settings/Settings";
+import CustomerList from "./CustomerList/CustomerList";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" exact Component={Customer} />
         <Route path="/home" Component={Home} />
         <Route path="/orders" Component={Orders} />
+        <Route path="/customer-list" Component={CustomerList} />
         <Route path="/settings" Component={Settings} />
       </Routes>
     </Router>

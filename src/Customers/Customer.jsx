@@ -15,10 +15,12 @@ function Customer() {
   const { data: customerDetails, get: get_customer_details, dataSeter: customerDetailsSet, deleter } = useApi();
 
   const resetToNew = () => {
+    const element = document.querySelector('[tabIndex="1"]');
     customerDetailsSet(new Date())
     setTimeout(() => {
       customerDetailsSet(null)
     },200)
+    element && element.focus()
     setCurrentStep(1)
   }
 

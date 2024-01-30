@@ -55,7 +55,7 @@ function CustomerOrderItem({order, num, setTrigger}) {
           <button style={{backgroundColor: 'green', width:'8rem', height:'3rem'}} onClick={() => handlePrint()}>چاپ</button>
       </Modal>
       <div className="order-items">
-        <h4 onClick={() => openModal()}>{num + 1}</h4>
+        <h4 onClick={() => openModal()}>{order.customer_details?.[0]?.id}</h4>
         <h4 onClick={() => openModal()}>{order.customer_details?.[0].first_name} {order.customer_details?.[0].last_name}</h4>
         <h4 onClick={() => openModal()}>{order.date_created}</h4>
         <h4 onClick={() => openModal()}>{order.date_delivery}</h4>
@@ -81,20 +81,19 @@ function Orders() {
   const fromattedDate = nextDay.toISOString().split('T')[0]
 
   const jalalitoday = moment(nextDay).format('jYYYY-jM-jD')
-  console.log(jalalitoday);
 
   useEffect(()=> {
-    console.log(fromattedDate);
-    get_orders(`/orders/?date_delivery_min=${jalalitoday}&archieved=${archieved ? '' : archieved}&ordering=date_delivery`)
+    archieved ? get_orders(`/orders/?date_delivery_min=${jalalitoday}&archieved=${true}&ordering=date_delivery`) :
+    get_orders(`/orders/?&archieved=${false}&ordering=date_delivery`)
   }, [trigger, archieved])
 
   return (
     <div className="new-container">
-      <label>شامل تکمیل شده ها: </label>
-      <input type='checkbox' onClick={(e) => setArchieved(e.target.checked)}></input>
+      <label>آرشیف:</label>
+      <input type='checkbox' className="w-5 mt-2 mr-3 py-2 px-3 default-inputs focus:outline-none h-5" onClick={(e) => setArchieved(e.target.checked)}></input>
       <div className="new-header">سفارشات</div>
       <div className="order-header">
-        <h4>No</h4>
+        <h4>آی دی</h4>
         <h4>نام</h4>
         <h4>تاریخ سفارش</h4>
         <h4>تاریخ تحویل</h4>
