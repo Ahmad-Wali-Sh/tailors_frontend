@@ -108,8 +108,8 @@ export const PrintForm = React.forwardRef((props, ref) => {
             <h3>
               <td>{order.quantity}</td>
             </h3>
-            <h3>قیمت کل: </h3>
-            <h3>{order.grand_total}</h3>
+            <td>الباقی</td>
+          <td>{order.al_baghi}</td>
           </tr>
         </div>
         <div

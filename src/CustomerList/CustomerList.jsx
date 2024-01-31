@@ -15,10 +15,43 @@ function CustomerItem({ customer, num, deleteCustomer }) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  
+
+  const [alertModal, setAlertModal] = useState(false);
+
+  const openAlert = () => {
+    setAlertModal(true);
+  };
+  const closeAlert = () => {
+    setAlertModal(false);
+  };
 
   return (
     <>
+        <Modal
+          isOpen={alertModal}
+          onRequestClose={closeAlert}
+          contentLabel="Your Modal"
+          className="alert-modal"
+          overlayClassName="custom-overlay"
+        >
+          <div className="new-container">
+              <div className="new-header">
+                  آیا موافق با حذف این مشتری هستید؟
+              </div>
+              <button className="button-delete" onClick={() => {
+                deleteCustomer(customer.id)
+                closeAlert()
+              }}>
+                بله
+              </button>
+              <button className="button-no" onClick={() => {
+                closeAlert()
+              }}>
+                نخیر
+              </button>
+          </div>
+
+        </Modal>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -28,16 +61,16 @@ function CustomerItem({ customer, num, deleteCustomer }) {
       >
         <button onClick={closeModal}>X</button>
         {customer?.measurements?.map((mesure) => (
-            <>
-        <table className="mesurements-forms">
-        {Object.entries(mesure?.data).map(([key, value]) => (
-        <div key={key} className="p-2 border">
-          <div className="font-semibold">{key}</div>
-          <div>{value}</div>
-        </div>
-      ))}
-        </table>
-            </>
+          <>
+            <table className="mesurements-forms">
+              {Object.entries(mesure?.data).map(([key, value]) => (
+                <div key={key} className="p-2 border">
+                  <div className="font-semibold">{key}</div>
+                  <div>{value}</div>
+                </div>
+              ))}
+            </table>
+          </>
         ))}
       </Modal>
       <div className="customer-item">
@@ -55,8 +88,11 @@ function CustomerItem({ customer, num, deleteCustomer }) {
         </h4>
         <h4
           className="text-red-700"
+          // onClick={() => {
+          //   deleteCustomer(customer.id);
+          // }}
           onClick={() => {
-            deleteCustomer(customer.id);
+            openAlert()
           }}
         >
           حذف
@@ -67,14 +103,11 @@ function CustomerItem({ customer, num, deleteCustomer }) {
 }
 
 function CustomerList() {
-  const {
-    data: customer,
-    get: get_customer,
-  } = useApi();
+  const { data: customer, get: get_customer } = useApi();
   const [page, setPage] = useState(1);
   const { register, watch, reset } = useForm();
-  const { deleter: delete_customer, data} = useApi()
-  const [trigger, setTrigger] = useState(new Date())
+  const { deleter: delete_customer, data } = useApi();
+  const [trigger, setTrigger] = useState(new Date());
 
   useEffect(() => {
     reset({
@@ -88,7 +121,7 @@ function CustomerList() {
 
   const deleteCustomer = (id) => {
     delete_customer(`/customers/${id}/`, () => {
-        setTrigger(new Date())
+      setTrigger(new Date());
     });
   };
 
@@ -127,24 +160,27 @@ function CustomerList() {
       <div className="new-footer">
         <div className="w-full pagination-container">
           <div className="pagination-buttons">
-            {page > 1 && <div
-              className="paginate-button"
-              onClick={() => {
-               page > 1 && setPage((prev) => prev - 1);
-              }}
-            >
-              {"<"}
-            </div>}
-            
-              {customer?.next != null && <div
+            {page > 1 && (
+              <div
+                className="paginate-button"
+                onClick={() => {
+                  page > 1 && setPage((prev) => prev - 1);
+                }}
+              >
+                {"<"}
+              </div>
+            )}
+
+            {customer?.next != null && (
+              <div
                 className="paginate-button"
                 onClick={() => {
                   setPage((prev) => prev + 1);
                 }}
               >
                 {">"}
-              </div>}
-            
+              </div>
+            )}
           </div>
         </div>
       </div>

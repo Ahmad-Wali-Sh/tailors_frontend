@@ -84,6 +84,27 @@ body {
   background-color: color.scale($color_grey, $lightness: 50%);
 }
 
+.alert-modal {
+  width: 40rem;
+  height: 15rem;
+}
+
+.button-delete {
+  width: 5rem;
+  background-color: #c53030;
+  border-radius: 1rem;
+  height: 2rem;
+  margin: 0.2rem;
+  color: white;
+}
+.button-no {
+  width: 5rem;
+  background-color: #219855;
+  border-radius: 1rem;
+  height: 2rem;
+  margin: 0.2rem;
+  color: white;
+}
 
 .dates-container {
   input {

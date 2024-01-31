@@ -38,8 +38,42 @@ function CustomerOrderItem({ order, num, setTrigger }) {
   });
   const [showPrint, setShowPrint] = useState(false)
 
+  const [alertModal, setAlertModal] = useState(false);
+
+  const openAlert = () => {
+    setAlertModal(true);
+  };
+  const closeAlert = () => {
+    setAlertModal(false);
+  };
+
   return (
     <>
+            <Modal
+          isOpen={alertModal}
+          onRequestClose={closeAlert}
+          contentLabel="Your Modal"
+          className="alert-modal"
+          overlayClassName="custom-overlay"
+        >
+          <div className="new-container">
+              <div className="new-header">
+                  آیا موافق با حذف این سفارش هستید؟
+              </div>
+              <button className="button-delete" onClick={() => {
+                deleteOrder()
+                closeAlert()
+              }}>
+                بله
+              </button>
+              <button className="button-no" onClick={() => {
+                closeAlert()
+              }}>
+                نخیر
+              </button>
+          </div>
+
+        </Modal>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -105,7 +139,10 @@ function CustomerOrderItem({ order, num, setTrigger }) {
           ></input>
         </h4>
         {!order.archieved && (
-          <h4 className="delete-order" onClick={() => deleteOrder()}>
+          <h4 className="delete-order" onClick={() => {
+            openAlert()
+          }
+          }>
             حذف
           </h4>
         )}

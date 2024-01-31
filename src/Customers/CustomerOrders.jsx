@@ -42,10 +42,47 @@ function CustomerOrderItem({ order, CustomerInformation, num, setTrigger }) {
     content: () => componentRef.current,
   });
 
-  const [showPrint, setShowPrint] = useState(false)
+  const [showPrint, setShowPrint] = useState(false);
+
+  const [alertModal, setAlertModal] = useState(false);
+
+  const openAlert = () => {
+    setAlertModal(true);
+  };
+  const closeAlert = () => {
+    setAlertModal(false);
+  };
 
   return (
     <>
+      <Modal
+        isOpen={alertModal}
+        onRequestClose={closeAlert}
+        contentLabel="Your Modal"
+        className="alert-modal"
+        overlayClassName="custom-overlay"
+      >
+        <div className="new-container">
+          <div className="new-header">آیا موافق با حذف این سفارش هستید؟</div>
+          <button
+            className="button-delete"
+            onClick={() => {
+              deleteOrder();
+              closeAlert();
+            }}
+          >
+            بله
+          </button>
+          <button
+            className="button-no"
+            onClick={() => {
+              closeAlert();
+            }}
+          >
+            نخیر
+          </button>
+        </div>
+      </Modal>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -64,22 +101,30 @@ function CustomerOrderItem({ order, CustomerInformation, num, setTrigger }) {
           </div>
         )}
         <button
-          style={{ backgroundColor: "green", width: "8rem", height: "3rem", fontSize: '1.4rem' }}
+          style={{
+            backgroundColor: "green",
+            width: "8rem",
+            height: "3rem",
+            fontSize: "1.4rem",
+          }}
           onClick={() => handlePrint()}
-          >
+        >
           چاپ
         </button>
-          <div onClick={(e) => setShowPrint(!showPrint)} 
-          className="bg-red-200 text-center rounded-xl p-2 cursor-pointer">
-        <label className="cursor-pointer">{showPrint ? 'بستن نمایش چاپ' : 'نمایش فاکتور برای چاپ'}</label>
-        <input
-          type="checkbox"
-          style={{display: 'none'}}
-          >
-        </input>
-          </div>
+        <div
+          onClick={(e) => setShowPrint(!showPrint)}
+          className="bg-red-200 text-center rounded-xl p-2 cursor-pointer"
+        >
+          <label className="cursor-pointer">
+            {showPrint ? "بستن نمایش چاپ" : "نمایش فاکتور برای چاپ"}
+          </label>
+          <input type="checkbox" style={{ display: "none" }}></input>
+        </div>
         {order.id && (
-          <div className="print-former" style={{ display: showPrint ? '' : 'none'}}>
+          <div
+            className="print-former"
+            style={{ display: showPrint ? "" : "none" }}
+          >
             <PrintForm
               ref={componentRef}
               CustomerInformation={CustomerInformation}
@@ -103,7 +148,12 @@ function CustomerOrderItem({ order, CustomerInformation, num, setTrigger }) {
             onClick={(e) => archiveOrder(e.target.checked)}
           ></input>
         </h4>
-        <h4 className="delete-order" onClick={() => deleteOrder()}>
+        <h4
+          className="delete-order"
+          onClick={() => {
+            openAlert();
+          }}
+        >
           حذف
         </h4>
       </div>
