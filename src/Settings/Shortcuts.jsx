@@ -4,7 +4,7 @@ function Shortcuts() {
   return (
     <div className="new-container">
         <div className="new-header">
-            میانبر های بخش مشتریان
+            میانبر های بخش ثبت مشتری
         </div>
       <div className="shortcuts-container">
         <div className="new-header shortcut-item">
@@ -32,6 +32,27 @@ function Shortcuts() {
           <div>Ctrl + P</div>
         </div>
       </div>
+        <div className="new-header">
+           میانبر های نوار ناوبری 
+        </div>
+        <div className="shortcuts-container">
+        <div className="new-header shortcut-item">
+          <div>ثبت مشتری</div>
+          <div>F1</div>
+        </div>
+        <div className="new-header shortcut-item">
+          <div>سفارشات</div>
+          <div>F2</div>
+        </div>
+        <div className="new-header shortcut-item">
+          <div>مشتریان</div>
+          <div>F3</div>
+        </div>
+        <div className="new-header shortcut-item">
+          <div>تنظیمات</div>
+          <div>F4</div>
+        </div>
+        </div>
     </div>
   );
 }

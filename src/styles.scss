@@ -73,6 +73,17 @@ body {
   }
 }
 
+.print-former {
+  background-color: green;
+  text-align: center;
+  padding-left: auto;
+  padding: 0.3rem;
+  padding-right: 2.5rem;
+  border-radius: 1rem;
+  scale: 0.95;
+  background-color: color.scale($color_grey, $lightness: 50%);
+}
+
 
 .dates-container {
   input {

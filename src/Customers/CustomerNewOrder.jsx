@@ -4,11 +4,8 @@ import useApi from "../Services/AxiosInstance";
 import { useForm } from "react-hook-form";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
-import {
-  DatePicker
-} from "react-advance-jalaali-datepicker";
-import jalaliMoment from 'jalali-moment';
-
+import { DatePicker } from "react-advance-jalaali-datepicker";
+import jalaliMoment from "jalali-moment";
 
 export const PrintForm = React.forwardRef((props, ref) => {
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
@@ -39,13 +36,13 @@ export const PrintForm = React.forwardRef((props, ref) => {
     return everyTwoArray;
   };
 
-  const jalaaliDate = jalaliMoment(order.date_delivery, 'jYYYY-jM-jD')
-  jalaaliDate.locale('fa');
-  const persianDayName = jalaaliDate.format('dddd');
+  const jalaaliDate = jalaliMoment(order.date_delivery, "jYYYY-jM-jD");
+  jalaaliDate.locale("fa");
+  const persianDayName = jalaaliDate.format("dddd");
 
-  const jalaaliDatecreated = jalaliMoment(order.date_created, 'jYYYY-jM-jD')
-  jalaaliDatecreated.locale('fa');
-  const persianDayNamecreated = jalaaliDatecreated.format('dddd');
+  const jalaaliDatecreated = jalaliMoment(order.date_created, "jYYYY-jM-jD");
+  jalaaliDatecreated.locale("fa");
+  const persianDayNamecreated = jalaaliDatecreated.format("dddd");
   return (
     <div ref={ref}>
       <table className="print-table">
@@ -63,37 +60,26 @@ export const PrintForm = React.forwardRef((props, ref) => {
         </tr>
         <tr>
           <td>سفارش</td>
-          <td className="relative bottom-1">{order.date_created} <br/> {persianDayNamecreated}</td>
+          <td className="relative bottom-1">
+            {order.date_created} <br /> {persianDayNamecreated}
+          </td>
           <td>تحویل</td>
-          <td className="relative bottom-1">{order.date_delivery} <br/> {persianDayName}</td>
+          <td className="relative bottom-1">
+            {order.date_delivery} <br /> {persianDayName}
+          </td>
         </tr>
         <tr>
           <td>تعداد</td>
           <td>{order.quantity}</td>
-          <td>قیمت</td>
-          <td>{order.dokht_price}</td>
-        </tr>
-        <tr>
-          <td>پارچه</td>
-          <td>{order.parcha}</td>
-          <td>قیمت</td>
-          <td>{order.clothing_price}</td>
-        </tr>
-        <tr>
-          <td>متراژ</td>
-          <td>{order.meters}</td>
-          <td>قیمت کل</td>
-          <td>{order.grand_total}</td>
-        </tr>
-        <tr>
-          <td>رسید</td>
-          <td>{order.rasid}</td>
           <td>الباقی</td>
           <td>{order.al_baghi}</td>
         </tr>
-        <h5>آدرس: {tailorsInfo?.results?.[0]?.address}</h5>
+        <h5 className="mb-3">آدرس: {tailorsInfo?.results?.[0]?.address}</h5>
       </table>
-      <div style={{ pageBreakAfter: "always", borderTop: "1px dashed grey"}} className='print-section'></div>
+      <div
+        style={{ pageBreakAfter: "always", borderTop: "1px dashed grey" }}
+        className="print-section"
+      ></div>
       <table className="print-table mt-3">
         <div className="mt-3">
           <h3>{tailorsInfo?.results?.[0]?.name}</h3>
@@ -108,20 +94,27 @@ export const PrintForm = React.forwardRef((props, ref) => {
           <tr className="flex">
             <h3>سفارش:</h3>
             <h3>
-            <td className="relative bottom-1">{order.date_created} <br/> {persianDayNamecreated}</td>
+              <td className="relative bottom-1">
+                {order.date_created} <br /> {persianDayNamecreated}
+              </td>
             </h3>
             <h3>تحویل: </h3>
-            <td className="relative bottom-1">{order.date_delivery} <br/> {persianDayName}</td>
+            <td className="relative bottom-1">
+              {order.date_delivery} <br /> {persianDayName}
+            </td>
           </tr>
           <tr className="flex">
             <h3>تعداد:</h3>
             <h3>
-            <td>{order.quantity}</td>
+              <td>{order.quantity}</td>
             </h3>
             <h3>قیمت کل: </h3>
             <h3>{order.grand_total}</h3>
           </tr>
         </div>
+        <div
+        style={{borderTop: "1px dotted grey" }}
+      ></div>
         {customerTypeData()?.map((item) => (
           <tr className="flex">
             <td>{item?.[0]?.key}</td>
@@ -139,40 +132,38 @@ function CustomerNewOrder({ CustomerInformation }) {
   const [orderStyle, setOrderStyle] = useState();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const { data: mesurementsType, get: get_mesurement_type } = useApi();
-  const { data: order, post: post_order, patch: patch_order } = useApi();
+  const { data: order, post: post_order, patch: patch_order, dataSeter: order_data_set } = useApi();
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
 
   useEffect(() => {
     get_tailors_info("/tailorshop/1/");
   }, []);
 
-  
   const [createDate, setCreatedDate] = useState();
-  const [deliverDate, setDeliverDate] = useState()
-
+  const [deliverDate, setDeliverDate] = useState();
 
   useEffect(() => {
     const currentDate = jalaliMoment();
 
-    setValue('dokht_price',tailorsInfo?.default_price )
+    setValue("dokht_price", tailorsInfo?.default_price);
     // Set the created date to today
-    setCreatedDate(currentDate.format('jYYYY-jM-jD'));
-    const daysLater = currentDate.add(parseInt(tailorsInfo?.day_to_deliver), 'days');
-    tailorsInfo?.date_to_deliver ? setDeliverDate(tailorsInfo?.date_to_deliver) : setDeliverDate(daysLater.format('jYYYY-jM-jD')) 
-  },  [tailorsInfo])
+    setCreatedDate(currentDate.format("jYYYY-jM-jD"));
+    const daysLater = currentDate.add(
+      parseInt(tailorsInfo?.day_to_deliver),
+      "days"
+    );
+    tailorsInfo?.date_to_deliver
+      ? setDeliverDate(tailorsInfo?.date_to_deliver)
+      : setDeliverDate(daysLater.format("jYYYY-jM-jD"));
+  }, [tailorsInfo]);
 
   useEffect(() => {
     reset({
       grand_total:
-        parseFloat(watch("dokht_price")) +
-        parseFloat(watch("clothing_price")),
+        parseFloat(watch("dokht_price")) + parseFloat(watch("clothing_price")),
       al_baghi: watch("grand_total") - watch("rasid"),
     });
-  }, [
-    watch("rasid"),
-    watch("dokht_price"),
-    watch("clothing_price"),
-  ]);
+  }, [watch("rasid"), watch("dokht_price"), watch("clothing_price")]);
 
   useEffect(() => {
     reset({
@@ -193,21 +184,27 @@ function CustomerNewOrder({ CustomerInformation }) {
   useEffect(() => {
     const handleKeyDown = (event) => {
       // Check if the key combination matches the desired shortcut
-      if (event.ctrlKey && (event.key === 'ح' || event.key === 'p' || event.key === 'P')) {
-        event.preventDefault()
-        handlePrint()
+      if (
+        event.ctrlKey &&
+        (event.key === "ح" || event.key === "p" || event.key === "P")
+      ) {
+        event.preventDefault();
+        handlePrint();
       }
     };
 
     // Add event listener for keydown event
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     // Clean up by removing the event listener when component unmounts
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
+  useEffect(() => {
+    order_data_set()
+  }, [CustomerInformation])
 
   const submitOrder = (data) => {
     const Form = new FormData();
@@ -232,173 +229,175 @@ function CustomerNewOrder({ CustomerInformation }) {
     content: () => componentRef.current,
   });
 
-
   return (
     <>
-    <form onSubmit={handleSubmit(submitOrder)}>
-      <div className="new-container">
-        <div className="new-header">انتخاب نوعیت سفارش</div>
-        <div className="select-section">
-          {mesurementsType?.results.map((type) => (
-            <div
-              className={`select-section-item ${
-                orderStyle?.name == type.name && "active"
-              }`}
-              onClick={() => setOrderStyle(type)}
-            >
-              {type.name}
+      <form onSubmit={handleSubmit(submitOrder)}>
+        <div className="new-container">
+          <div className="new-header">انتخاب نوعیت سفارش</div>
+          <div className="select-section">
+            {mesurementsType?.results.map((type) => (
+              <div
+                className={`select-section-item ${
+                  orderStyle?.name == type.name && "active"
+                }`}
+                onClick={() => setOrderStyle(type)}
+              >
+                {type.name}
+              </div>
+            ))}
+          </div>
+          <div className="new-header">اطلاعات سفارش</div>
+          <div className="flex mb-4">
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                تاریخ سفارش:
+              </label>
+              <DatePicker
+                onChange={(unix, formated) => {
+                  setCreatedDate(formated);
+                }}
+                controlValue={true}
+                containerClass={
+                  "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                }
+                preSelected={createDate}
+                cancelOnBackgroundClick={true}
+              />
             </div>
-          ))}
-        </div>
-        <div className="new-header">اطلاعات سفارش</div>
-        <div className="flex mb-4">
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              تاریخ سفارش:
-            </label>
-            <DatePicker
-              onChange={(unix, formated) => {
-                setCreatedDate(formated);
-              }}
-              controlValue={true}
-              containerClass={
-                "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-              }
-              preSelected={createDate}
-              cancelOnBackgroundClick={true}
-            />
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                تاریخ تحویل:
+              </label>
+              <DatePicker
+                onChange={(unix, formated) => {
+                  setDeliverDate(formated);
+                }}
+                controlValue={true}
+                containerClass={
+                  "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                }
+                preSelected={deliverDate}
+                cancelOnBackgroundClick={true}
+              />
+            </div>
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                قیمت دوخت:
+              </label>
+              <input
+                {...register("dokht_price", { required: true })}
+                type="text"
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
           </div>
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              تاریخ تحویل:
-            </label>
-            <DatePicker
-              onChange={(unix, formated) => {
-                setDeliverDate(formated);
-              }}
-              controlValue={true}
-              containerClass={
-                "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-              }
-              preSelected={deliverDate}
-              cancelOnBackgroundClick={true}
-            />
+          <div className="flex mb-4">
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                پارچه:
+              </label>
+              <input
+                type="text"
+                {...register("parcha")}
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                متراژ:
+              </label>
+              <input
+                type="text"
+                {...register("meters")}
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                قیمت پارچه:
+              </label>
+              <input
+                {...register("clothing_price")}
+                type="text"
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
           </div>
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              قیمت دوخت:
-            </label>
-            <input
-              {...register("dokht_price", { required: true })}
-              type="text"
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
+          <div className="flex mb-4">
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                تعداد:
+              </label>
+              <input
+                type="text"
+                {...register("quantity", { required: true })}
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
+            <div className="w-1/3 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                رسید:
+              </label>
+              <input
+                type="text"
+                onKeyDown={(e) => {
+                  !e.shiftKey && e.key == "Tab" && e.preventDefault();
+                }}
+                {...register("rasid", { required: true })}
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
+            <div className="w-1/6 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                قیمت کل:
+              </label>
+              <input
+                type="text"
+                disabled
+                {...register("grand_total", { required: true })}
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                placeholder="برای ویرایش کلیک کنید."
+              />
+            </div>
+            <div className="w-1/6 pr-3">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                الباقی:
+              </label>
+              <input
+                disabled
+                {...register("al_baghi", { required: true })}
+                type="text"
+                className="w-full py-2 px-3 default-inputs focus:outline-none"
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex mb-4">
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              پارچه:
-            </label>
-            <input
-              type="text"
-              {...register("parcha")}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              متراژ:
-            </label>
-            <input
-              type="text"
-              {...register("meters")}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              قیمت پارچه:
-            </label>
-            <input
-              {...register("clothing_price")}
-              type="text"
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-        </div>
-        <div className="flex mb-4">
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              تعداد:
-            </label>
-            <input
-              type="text"
-              {...register("quantity", { required: true })}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-          <div className="w-1/3 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              رسید:
-            </label>
-            <input
-              type="text"
-              {...register("rasid", { required: true })}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-          <div className="w-1/6 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              قیمت کل:
-            </label>
-            <input
-              type="text"
-              disabled
-              {...register("grand_total", { required: true })}
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-              placeholder="برای ویرایش کلیک کنید."
-            />
-          </div>
-          <div className="w-1/6 pr-3">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              الباقی:
-            </label>
-            <input
-              disabled
-              {...register("al_baghi", { required: true })}
-              type="text"
-              className="w-full py-2 px-3 default-inputs focus:outline-none"
-            />
-          </div>
-        </div>
-        <div className="new-footer">
-          <button
-            tabIndex={-1}
-            type='submit'
-            className={`${
-              order?.id ? "bg-blue-900" : "bg-emerald-900"
-            } text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
-          >
-            {order ? "ویرایش" : "ذخیره"}
-          </button>
-          {order?.id && (
+          <div className="new-footer">
             <button
               tabIndex={-1}
-              onClick={handlePrint}
-              className={`bg-blue-600 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
+              type="submit"
+              className={`${
+                order?.id ? "bg-blue-900" : "bg-emerald-900"
+              } text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
             >
-              چاپ
+              {order ? "ویرایش" : "ذخیره"}
             </button>
-          )}
+            {order?.id && (
+              <button
+                tabIndex={-1}
+                onClick={handlePrint}
+                className={`bg-blue-600 text-white font-bold py-2 px-6 m-2 rounded-full focus:outline-none focus:shadow-outline"`}
+              >
+                چاپ
+              </button>
+            )}
+          </div>
         </div>
-      </div>
       </form>
       {order?.id && (
         <div className="new-container print-container">
