@@ -159,20 +159,20 @@ function MesurementItemSetting({ type, setTrigger }) {
   const setDefault = () => {
     watch("name") == "افغانی" &&
       setFields([
-        { name: "قد", default: "", list: [] },
+        { name: "قد", default: "", list: [""] },
         { name: "مدل دامن", default: "", list: [] },
         { name: "آستین", default: "", list: [] },
         { name: "مدل آستین", default: "", list: [] },
         { name: "شانه", default: "", list: [] },
         { name: "مدل دکمه", default: "", list: [] },
-        { name: "بغل", default: "", list: [] },
-        { name: "مدل یخن", default: "", list: [] },
-        { name: "دامن", default: "", list: [] },
-        { name: "مدل برتمان", default: "", list: [] },
         { name: "یخن", default: "", list: [] },
-        { name: "کیسه تمان", default: "", list: [] },
-        { name: "تمبان", default: "", list: [] },
+        { name: "مدل یخن", default: "", list: [] },
+        { name: "بغل", default: "", list: [] },
+        { name: "مدل برتمان", default: "", list: [] },
+        { name: "بر دامن", default: "", list: [] },
         { name: "کیسه رو", default: "", list: [] },
+        { name: "قد شلوار", default: "", list: [] },
+        { name: "کیسه شلوار", default: "", list: [] },
         { name: "دم پارچه", default: "", list: [] },
         { name: "توضیحات", default: "", list: [] },
       ]);
