@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import {
   DatePicker
 } from "react-advance-jalaali-datepicker";
-import jalaliMoment from 'jalali-moment';
 
 function OrderSettings() {
 

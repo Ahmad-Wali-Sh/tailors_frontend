@@ -61,11 +61,11 @@ export const PrintForm = React.forwardRef((props, ref) => {
         <tr>
           <td>سفارش</td>
           <td className="relative bottom-1">
-            {order.date_created} <br /> {persianDayNamecreated}
+          {jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayNamecreated}
           </td>
           <td>تحویل</td>
           <td className="relative bottom-1">
-            {order.date_delivery} <br /> {persianDayName}
+          {jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayName}
           </td>
         </tr>
         <tr>
@@ -95,12 +95,12 @@ export const PrintForm = React.forwardRef((props, ref) => {
             <h3>سفارش:</h3>
             <h3>
               <td className="relative bottom-1">
-                {order.date_created} <br /> {persianDayNamecreated}
+                {jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayNamecreated}
               </td>
             </h3>
             <h3>تحویل: </h3>
             <td className="relative bottom-1">
-              {order.date_delivery} <br /> {persianDayName}
+            {jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayName}
             </td>
           </tr>
           <tr className="flex">
@@ -217,8 +217,8 @@ function CustomerNewOrder({ CustomerInformation }) {
     Form.append("parcha", data.parcha);
     Form.append("meters", data.meters);
     Form.append("rasid", data.rasid);
-    Form.append("date_delivery", deliverDate);
-    Form.append("date_created", createDate);
+    Form.append("date_delivery", jalaliMoment(deliverDate, 'jYYYY-jMM-jDD').format('YYYY-MM-DD'));
+    Form.append("date_created", jalaliMoment(createDate, 'jYYYY-jMM-jDD').format('YYYY-MM-DD'));
     order
       ? patch_order("/orders/" + order?.id + "/", Form)
       : post_order("/orders/", Form);

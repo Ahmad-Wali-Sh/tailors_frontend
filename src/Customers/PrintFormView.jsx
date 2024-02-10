@@ -53,11 +53,11 @@ export const PrintFormView = React.forwardRef((props, ref) => {
           <tr>
             <td>سفارش</td>
             <td className="relative bottom-1">
-              {order.date_created} <br /> {persianDayNamecreated}
+            {jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayNamecreated}
             </td>
             <td>تحویل</td>
             <td className="relative bottom-1">
-              {order.date_delivery} <br /> {persianDayName}
+              {jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayName}
             </td>
           </tr>
           <tr>

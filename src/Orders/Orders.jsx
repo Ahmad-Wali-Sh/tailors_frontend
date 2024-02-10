@@ -6,6 +6,7 @@ import { PrintForm } from "../Customers/CustomerNewOrder";
 import useApi from "../Services/AxiosInstance";
 import moment from "jalali-moment";
 import { PrintFormView } from "../Customers/PrintFormView";
+import jalaliMoment from "jalali-moment";
 
 function CustomerOrderItem({ order, num, setTrigger }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -127,8 +128,8 @@ function CustomerOrderItem({ order, num, setTrigger }) {
           {order.customer_details?.[0].first_name}{" "}
           {order.customer_details?.[0].last_name}
         </h4>
-        <h4 onClick={() => openModal()}>{order.date_created}</h4>
-        <h4 onClick={() => openModal()}>{order.date_delivery}</h4>
+        <h4 onClick={() => openModal()}>{jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')}</h4>
+        <h4 onClick={() => openModal()}>{jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')}</h4>
         <h4 onClick={() => openModal()}>{order.grand_total}</h4>
         <h4>
           <input
