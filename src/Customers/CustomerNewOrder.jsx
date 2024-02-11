@@ -36,11 +36,11 @@ export const PrintForm = React.forwardRef((props, ref) => {
     return everyTwoArray;
   };
 
-  const jalaaliDate = jalaliMoment(order.date_delivery, "jYYYY-jM-jD");
+  const jalaaliDate = jalaliMoment(order.date_delivery, "YYYY-M-D");
   jalaaliDate.locale("fa");
   const persianDayName = jalaaliDate.format("dddd");
 
-  const jalaaliDatecreated = jalaliMoment(order.date_created, "jYYYY-jM-jD");
+  const jalaaliDatecreated = jalaliMoment(order.date_created, "YYYY-M-D");
   jalaaliDatecreated.locale("fa");
   const persianDayNamecreated = jalaaliDatecreated.format("dddd");
   return (
