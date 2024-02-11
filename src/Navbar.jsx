@@ -57,6 +57,14 @@ function Navbar() {
             تنظیمات
           </div>
         </Link>
+        <Link to="/finance" onClick={() => setActiveNav("finance")} tabIndex={-1}>
+          <div
+            className={`nav-item ${activeNav == "finance" && "active-nav"}`}
+            tabIndex={-1}
+          >
+            حسابداری
+          </div>
+        </Link>
         <Link tabIndex={-1}
           to="/customer-list"
           onClick={() => {

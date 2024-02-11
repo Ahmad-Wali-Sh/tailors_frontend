@@ -6,6 +6,7 @@ import Customer from "./Customers/Customer";
 import Orders from "./Orders/Orders";
 import Settings from "./Settings/Settings";
 import CustomerList from "./CustomerList/CustomerList";
+import Finance from "./Finance/Finance";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/orders" Component={Orders} />
         <Route path="/customer-list" Component={CustomerList} />
         <Route path="/settings" Component={Settings} />
+        <Route path="/finance" Component={Finance} />
       </Routes>
     </Router>
   );
