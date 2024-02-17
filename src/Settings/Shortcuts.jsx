@@ -3,9 +3,7 @@ import React from "react";
 function Shortcuts() {
   return (
     <div className="new-container">
-        <div className="new-header">
-            میانبر های بخش ثبت مشتری
-        </div>
+      <div className="new-header">میانبر های بخش ثبت مشتری</div>
       <div className="shortcuts-container">
         <div className="new-header shortcut-item">
           <div>جستوجو</div>
@@ -32,10 +30,8 @@ function Shortcuts() {
           <div>Ctrl + P</div>
         </div>
       </div>
-        <div className="new-header">
-           میانبر های نوار ناوبری 
-        </div>
-        <div className="shortcuts-container">
+      <div className="new-header">میانبر های نوار ناوبری</div>
+      <div className="shortcuts-container">
         <div className="new-header shortcut-item">
           <div>ثبت مشتری</div>
           <div>F1</div>
@@ -49,10 +45,14 @@ function Shortcuts() {
           <div>F3</div>
         </div>
         <div className="new-header shortcut-item">
+          <div>گزارش</div>
+          <div>F5</div>
+        </div>
+        <div className="new-header shortcut-item">
           <div>تنظیمات</div>
-          <div>F4</div>
+          <div>F6</div>
         </div>
-        </div>
+      </div>
     </div>
   );
 }

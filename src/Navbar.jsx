@@ -9,9 +9,7 @@ function Navbar() {
   useEffect(() => {
     const handleKeyDown = (event) => {
       // Check if the key combination matches the desired shortcut
-      if (
-        (event.key === "F1")
-      ) {
+      if (event.key === "F1") {
         setActiveNav("");
         navigate("/");
       }
@@ -25,10 +23,15 @@ function Navbar() {
         setActiveNav("customer-list");
         navigate("/customer-list");
       }
-      if (event.key == "F4") {
+      if (event.key == "F6") {
         event.preventDefault();
         setActiveNav("settings");
         navigate("/settings");
+      }
+      if (event.key == "F5") {
+        event.preventDefault();
+        setActiveNav("finance");
+        navigate("/finance");
       }
     };
 
@@ -49,7 +52,11 @@ function Navbar() {
         </div>
       </Link>
       <div className="flex p-1">
-        <Link to="/settings" onClick={() => setActiveNav("settings")} tabIndex={-1}>
+        <Link
+          to="/settings"
+          onClick={() => setActiveNav("settings")}
+          tabIndex={-1}
+        >
           <div
             className={`nav-item ${activeNav == "settings" && "active-nav"}`}
             tabIndex={-1}
@@ -57,22 +64,27 @@ function Navbar() {
             تنظیمات
           </div>
         </Link>
-        <Link to="/finance" onClick={() => setActiveNav("finance")} tabIndex={-1}>
+        <Link
+          to="/finance"
+          onClick={() => setActiveNav("finance")}
+          tabIndex={-1}
+        >
           <div
             className={`nav-item ${activeNav == "finance" && "active-nav"}`}
             tabIndex={-1}
           >
-            حسابداری
+            گزارش
           </div>
         </Link>
-        <Link tabIndex={-1}
+        <Link
+          tabIndex={-1}
           to="/customer-list"
           onClick={() => {
             setActiveNav("customer-list");
           }}
         >
           <div
-          tabIndex={-1}
+            tabIndex={-1}
             className={`nav-item ${
               activeNav == "customer-list" && "active-nav"
             }`}
@@ -81,18 +93,22 @@ function Navbar() {
           </div>
         </Link>
         <Link tabIndex={-1} to="/orders" onClick={() => setActiveNav("orders")}>
-          <div className={`nav-item ${activeNav == "orders" && "active-nav"}`} tabIndex={-1}>
+          <div
+            className={`nav-item ${activeNav == "orders" && "active-nav"}`}
+            tabIndex={-1}
+          >
             سفارشات
           </div>
         </Link>
-        <Link tabIndex={-1}
+        <Link
+          tabIndex={-1}
           to="/"
           onClick={() => {
             setActiveNav("");
           }}
         >
           <div
-          tabIndex={-1}
+            tabIndex={-1}
             className={`nav-item rounded-r-full ${
               activeNav == "" && "active-nav"
             }`}
