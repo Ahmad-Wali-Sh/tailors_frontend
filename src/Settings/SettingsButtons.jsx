@@ -1,7 +1,7 @@
 import React from "react";
 
 const SettingsButtons = ({ currentStep, onStepClick }) => {
-  const steps = ["اطلاعات خیاطی", "اندازه گیری", "سفارشات", "میانبر ها"];
+  const steps = ["اطلاعات خیاطی", "اندازه گیری", "سفارشات", 'فاکتور چاپ', "میانبر ها"];
 
   return (
     <div className="step-guide">

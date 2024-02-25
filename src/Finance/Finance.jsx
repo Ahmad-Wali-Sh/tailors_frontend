@@ -1,8 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { DatePicker } from "react-advance-jalaali-datepicker";
 import { useForm } from "react-hook-form";
 import jalaliMoment from "jalali-moment";
+import "@ahmad-wali-sh/jalaali-react-date-picker/lib/styles/index.css";
+import {
+  InputDatePicker,
+  DatePicker,
+} from "@ahmad-wali-sh/jalaali-react-date-picker";
 
 function Finance() {
   const [fromDate, setFromDate] = useState();
@@ -12,11 +16,13 @@ function Finance() {
 
   useEffect(() => {
     let startDate = fromDate
-      ? jalaliMoment(fromDate, "jYYYY-jMM-jDD").format("YYYY-MM-DD")
+      ? jalaliMoment(fromDate).format("YYYY-MM-DD")
       : "";
     let endDate = untilDate
-      ? jalaliMoment(untilDate, "jYYYY-jMM-jDD").format("YYYY-MM-DD")
+      ? jalaliMoment(untilDate).format("YYYY-MM-DD")
       : "";
+
+      console.log(endDate);
 
     startDate &&
       endDate &&
@@ -43,7 +49,15 @@ function Finance() {
               از تاریخ:
             </label>
             <div className="flex">
-              <DatePicker
+              <InputDatePicker
+                value={fromDate || null}
+                onChange={(e) => {
+                  setFromDate(e);
+                }}
+                wrapperClassName="w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                className="none-input-style"
+              />
+              {/* <DatePicker
                 onChange={(unix, formated) => {
                   setFromDate(formated);
                 }}
@@ -53,15 +67,7 @@ function Finance() {
                 }
                 preSelected={fromDate || ""}
                 cancelOnBackgroundClick={true}
-              />
-              {fromDate && (
-                <button
-                  className="plus-button mt-1 mr-3 scale-75 left-12 relative"
-                  onClick={() => setFromDate("")}
-                >
-                  x
-                </button>
-              )}
+              /> */}
             </div>
           </div>
           <div className="pr-3 mt-2">
@@ -69,25 +75,14 @@ function Finance() {
               تا تاریخ:
             </label>
             <div className="flex">
-              <DatePicker
-                onChange={(unix, formated) => {
-                  setUntilDate(formated);
+              <InputDatePicker
+                value={untilDate || null}
+                onChange={(e) => {
+                  setUntilDate(e);
                 }}
-                controlValue={true}
-                containerClass={
-                  "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-                }
-                preSelected={untilDate || ""}
-                cancelOnBackgroundClick={true}
+                wrapperClassName="w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                className="none-input-style"
               />
-              {untilDate && (
-                <button
-                  className="plus-button mt-1 mr-3 scale-75 left-12 relative"
-                  onClick={() => setUntilDate("")}
-                >
-                  x
-                </button>
-              )}
             </div>
           </div>
           <div className="pr-3 mt-2">

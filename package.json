@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ahmad-wali-sh/jalaali-react-date-picker": "^1.0.18",
     "axios": "^1.6.5",
     "jalali-moment": "^3.3.11",
     "moment": "^2.30.1",

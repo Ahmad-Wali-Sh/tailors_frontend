@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useApi from "../Services/AxiosInstance";
 import { useForm } from "react-hook-form";
-import {
-  DatePicker
-} from "react-advance-jalaali-datepicker";
+import "@ahmad-wali-sh/jalaali-react-date-picker/lib/styles/index.css";
+import { InputDatePicker, DatePicker } from "@ahmad-wali-sh/jalaali-react-date-picker";
+import jalaliMoment from "jalali-moment";
 
 function OrderSettings() {
 
@@ -22,13 +22,13 @@ function OrderSettings() {
         default_price: data?.default_price
       })
 
-      setStableDate(data?.date_to_deliver)
+      data?.date_to_deliver && setStableDate(jalaliMoment(data?.date_to_deliver))
   }, [data])
 
   const editOrderingDefaults = (data) => {
     const Form = new FormData()
     Form.append('day_to_deliver', data?.day_to_deliver)
-    Form.append('date_to_deliver', stableDate ? stableDate : '')
+    Form.append('date_to_deliver', stableDate ? jalaliMoment(stableDate).format('YYYY-MM-DD') : '')
     Form.append('default_price', data?.default_price)
     patch('tailorshop/1/', Form)
   }
@@ -51,21 +51,15 @@ function OrderSettings() {
           <label className="block text-gray-700 text-sm font-bold mb-2">
             تاریخ تحویل ثابت (در مواقع نیاز):
           </label>
-          <div className="flex">
 
-            <DatePicker
-              onChange={(unix, formated) => {
-                setStableDate(formated);
-              }}
-              controlValue={true}
-              containerClass={
-                "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-              }
-              preSelected={stableDate || ''}
-              cancelOnBackgroundClick={true}
+            <InputDatePicker
+                value={stableDate || null}
+                onChange={(e) => {
+                  setStableDate(e);
+                }}
+                wrapperClassName="w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                className="none-input-style"
             />
-            {stableDate && <button  className="plus-button mt-1 mr-3 scale-75 left-12 relative"  onClick={() => setStableDate('')}>x</button>}
-                </div>
         </div>
         <div className="pr-3 mt-2">
           <label className="block text-gray-700 text-sm font-bold mb-2">

@@ -4,6 +4,7 @@ import SettingsButtons from './SettingsButtons'
 import MesurementSettings from './MesurementSettings'
 import OrderSettings from './OrderSettings'
 import Shortcuts from './Shortcuts'
+import PrintFactor from './PrintFactor'
 
 function Settings() {
 
@@ -20,6 +21,7 @@ function Settings() {
         {currentStep === 'اندازه گیری' && <MesurementSettings />}
         {currentStep === 'سفارشات' && <OrderSettings />}
         {currentStep === 'میانبر ها' && <Shortcuts />}
+        {currentStep === 'فاکتور چاپ' && <PrintFactor />}
     </div>
   )
 }

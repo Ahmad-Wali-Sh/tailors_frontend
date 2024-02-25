@@ -91,29 +91,34 @@ function Mesurement({
                 }
                 {...register(`measurment.${type.name}.${field.name}`)}
                 onKeyDown={(e) => {
-                  e.target.value == "" &&
-                    e.key === "Tab" &&
-                    setValue(
-                      `measurment.${type.name}.${field.name}`,
-                      field.default
-                    );
-
-                  fields[fields.length - 1].name == field.name &&
-                    !e.shiftKey &&
-                    e.key == "Tab" &&
-                    e.preventDefault();
+                  if (e.target.value == "" && e.key === 'Tab' && field?.required ) {
+                    e.preventDefault()
+                  }
+                  else {
+                    e.target.value == "" &&
+                      e.key === "Tab" &&
+                      setValue(
+                        `measurment.${type.name}.${field.name}`,
+                        field.default
+                      );
+  
+                    fields[fields.length - 1].name == field.name &&
+                      !e.shiftKey &&
+                      e.key == "Tab" &&
+                      e.preventDefault();
+                  }
                 }}
                 onFocus={() => {
                   scrollToDiv();
                 }}
                 type="text"
-                className="w-full py-2 px-3 default-inputs focus:outline-none"
+                className={`w-full py-2 px-3 default-inputs focus:outline-none ${field.required &&  'alert-required'}`}
                 placeholder="برای ویرایش کلیک کنید."
                 list={field.name}
               />
               <datalist id={field.name}>
                 {field?.list?.map((item, index) => (
-                  <option key={index} value={item}>
+                  <option key={index} value={item} className="options-lists-item">
                     {item}
                   </option>
                 ))}

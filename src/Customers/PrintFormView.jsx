@@ -40,7 +40,7 @@ export const PrintFormView = React.forwardRef((props, ref) => {
     const persianDayNamecreated = jalaaliDatecreated.format("dddd");
     return (
       <div ref={ref}>
-        <table className="print-table">
+        <table className="print-table-view">
 
           <tr>
             <td>محترم</td>
@@ -86,7 +86,7 @@ export const PrintFormView = React.forwardRef((props, ref) => {
           </tr>
         </table>
 
-        <table className="print-table mt-3">
+        <table className="print-table-view mt-3">
           <div className="mt-3">
             <tr className="flex">
               <h3 className="font-bold">اندازه:</h3>

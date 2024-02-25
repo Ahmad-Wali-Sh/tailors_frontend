@@ -69,6 +69,19 @@ body {
   }
 }
 
+.alert-required{
+  &:focus {
+    box-shadow: 1px 1px 10px red !important;
+  }
+}
+
+.number-inputs{
+  width: 5rem;
+  height: 2rem;
+  border-radius: 0.3rem;
+  padding: 0.4rem;
+}
+
 .print-former {
   background-color: green;
   text-align: center;
@@ -133,6 +146,29 @@ body {
 }
 
 .print-table{
+  margin: 1rem;
+  direction: rtl;  
+  text-align: center;
+  text-wrap: nowrap;
+  white-space: nowrap ;
+  tr{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 2fr;
+    justify-content: right;
+    gap: 1.2rem;
+    text-align: right;
+    direction: rtl;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  td{
+    text-align: right;
+    direction: ltr;
+    width: 100%;
+  }
+}
+
+.print-table-view{
   margin: 1rem;
   width: 300px;
   direction: rtl;  

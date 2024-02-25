@@ -4,14 +4,21 @@ import useApi from "../Services/AxiosInstance";
 import { useForm } from "react-hook-form";
 import { useReactToPrint } from "react-to-print";
 import { useRef } from "react";
-import { DatePicker } from "react-advance-jalaali-datepicker";
+// import { DatePicker, DateRangePicker } from "react-advance-jalaali-datepicker";
 import jalaliMoment from "jalali-moment";
+import "@ahmad-wali-sh/jalaali-react-date-picker/lib/styles/index.css";
+import {
+  InputDatePicker,
+  DatePicker,
+} from "@ahmad-wali-sh/jalaali-react-date-picker";
 
 export const PrintForm = React.forwardRef((props, ref) => {
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
+  const { data: printForm, get: get_print_form } = useApi();
 
   useEffect(() => {
     get_tailors_info("/tailorshop");
+    get_print_form("/print-form/1");
   }, []);
 
   const customer = props?.order?.customer_details?.[0];
@@ -45,7 +52,7 @@ export const PrintForm = React.forwardRef((props, ref) => {
   const persianDayNamecreated = jalaaliDatecreated.format("dddd");
   return (
     <div ref={ref}>
-      <table className="print-table">
+      <table className="print-table" style={{fontSize: printForm?.font_size, width: `${printForm?.paper_width}px`}}>
         <div>
           <h3>{tailorsInfo?.results?.[0]?.name}</h3>
           <h5>تماس: {tailorsInfo?.results?.[0]?.contact}</h5>
@@ -59,28 +66,74 @@ export const PrintForm = React.forwardRef((props, ref) => {
           <td>{customer.id}</td>
         </tr>
         <tr>
-          <td>سفارش</td>
-          <td className="relative bottom-1">
-          {jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayNamecreated}
-          </td>
+          {printForm?.sar_created && (
+            <>
+              <td>سفارش</td>
+              <td className="relative bottom-1">
+                {jalaliMoment(order.date_created, "YYYY-MM-DD").format(
+                  "jYYYY-jMM-jDD"
+                )}{" "}
+                <br /> {persianDayNamecreated}
+              </td>
+            </>
+          )}
+          {printForm?.sar_delivery && <>
           <td>تحویل</td>
           <td className="relative bottom-1">
-          {jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayName}
+            {jalaliMoment(order.date_delivery, "YYYY-MM-DD").format(
+              "jYYYY-jMM-jDD"
+              )}{" "}
+            <br /> {persianDayName}
           </td>
+              </>}
         </tr>
         <tr>
+          {printForm?.sar_quantity && <>
           <td>تعداد</td>
           <td>{order.quantity}</td>
-          <td>الباقی</td>
+          </>}
+          {printForm?.sar_albaghi && <>
+            <td>الباقی</td>
           <td>{order.al_baghi}</td>
+          </>}
         </tr>
-        <h5 className="mb-3">آدرس: {tailorsInfo?.results?.[0]?.address}</h5>
+        <tr>
+          {printForm?.sar_parcha && <>
+            <td>پارچه</td>
+          <td>{order.parcha}</td>
+          </>}
+          {printForm?.sar_metraj && <>
+          <td>متراژ</td>
+          <td>{order.meters}</td>
+          </>}
+        </tr>
+        <tr>
+          {printForm?.sar_price_parcha && <>
+            <td>قیمت_پارچه</td>
+          <td>{order.clothing_price}</td>
+          </>}
+          {printForm?.sar_price_dokht && <>
+          <td>قیمت_دوخت</td>
+          <td>{order.dokht_price}</td>
+          </>}
+        </tr>
+        <tr>
+          {printForm?.sar_price_grand && <>
+            <td>قیمت_کل</td>
+          <td>{order.grand_total}</td>
+          </>}
+          {printForm?.sar_price_rasid && <>
+          <td>رسید</td>
+          <td>{order.rasid}</td>
+          </>}
+        </tr>
+        {printForm?.sar_price_address && <h5 className="mb-3">آدرس: {tailorsInfo?.results?.[0]?.address}</h5>}
       </table>
       <div
         style={{ pageBreakAfter: "always", borderTop: "1px dashed grey" }}
         className="print-section"
       ></div>
-      <table className="print-table mt-3">
+      <table className="print-table" style={{fontSize: printForm?.font_size, width: `${printForm?.paper_width}px`}}>
         <div className="mt-3">
           <h3>{tailorsInfo?.results?.[0]?.name}</h3>
           <tr className="flex">
@@ -91,30 +144,70 @@ export const PrintForm = React.forwardRef((props, ref) => {
             <h3>آی دی: </h3>
             <td className="relative bottom-1">{customer.id}</td>
           </tr>
-          <tr className="flex">
-            <h3>سفارش:</h3>
-            <h3>
+          <tr>
+          {printForm?.in_created && (
+            <>
+              <td>سفارش</td>
               <td className="relative bottom-1">
-                {jalaliMoment(order.date_created, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayNamecreated}
+                {jalaliMoment(order.date_created, "YYYY-MM-DD").format(
+                  "jYYYY-jMM-jDD"
+                )}{" "}
+                <br /> {persianDayNamecreated}
               </td>
-            </h3>
-            <h3>تحویل: </h3>
-            <td className="relative bottom-1">
-            {jalaliMoment(order.date_delivery, 'YYYY-MM-DD').format('jYYYY-jMM-jDD')} <br /> {persianDayName}
-            </td>
-          </tr>
-          <tr className="flex">
-            <h3>تعداد:</h3>
-            <h3>
-              <td>{order.quantity}</td>
-            </h3>
+            </>
+          )}
+          {printForm?.in_delivery && <>
+          <td>تحویل</td>
+          <td className="relative bottom-1">
+            {jalaliMoment(order.date_delivery, "YYYY-MM-DD").format(
+              "jYYYY-jMM-jDD"
+              )}{" "}
+            <br /> {persianDayName}
+          </td>
+              </>}
+        </tr>
+        <tr>
+          {printForm?.in_quantity && <>
+          <td>تعداد</td>
+          <td>{order.quantity}</td>
+          </>}
+          {printForm?.in_albaghi && <>
             <td>الباقی</td>
           <td>{order.al_baghi}</td>
-          </tr>
+          </>}
+        </tr>
+        <tr>
+          {printForm?.in_parcha && <>
+            <td>پارچه</td>
+          <td>{order.parcha}</td>
+          </>}
+          {printForm?.in_metraj && <>
+          <td>متراژ</td>
+          <td>{order.meters}</td>
+          </>}
+        </tr>
+        <tr>
+          {printForm?.in_price_parcha && <>
+            <td>قیمت_پارچه</td>
+          <td>{order.clothing_price}</td>
+          </>}
+          {printForm?.in_price_dokht && <>
+          <td>قیمت_دوخت</td>
+          <td>{order.dokht_price}</td>
+          </>}
+        </tr>
+        <tr>
+          {printForm?.in_price_grand && <>
+            <td>قیمت_کل</td>
+          <td>{order.grand_total}</td>
+          </>}
+          {printForm?.in_price_rasid && <>
+          <td>رسید</td>
+          <td>{order.rasid}</td>
+          </>}
+        </tr>
         </div>
-        <div
-        style={{borderTop: "1px dotted grey" }}
-      ></div>
+        <div style={{ borderTop: "1px dotted grey" }}></div>
         {customerTypeData()?.map((item) => (
           <tr className="flex">
             <td>{item?.[0]?.key}</td>
@@ -123,6 +216,7 @@ export const PrintForm = React.forwardRef((props, ref) => {
             <td>{item?.[1]?.value}</td>
           </tr>
         ))}
+            {printForm?.in_price_address && <h5 className="mb-3">آدرس: {tailorsInfo?.results?.[0]?.address}</h5>}
       </table>
     </div>
   );
@@ -132,29 +226,37 @@ function CustomerNewOrder({ CustomerInformation }) {
   const [orderStyle, setOrderStyle] = useState();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const { data: mesurementsType, get: get_mesurement_type } = useApi();
-  const { data: order, post: post_order, patch: patch_order, dataSeter: order_data_set } = useApi();
+  const {
+    data: order,
+    post: post_order,
+    patch: patch_order,
+    dataSeter: order_data_set,
+  } = useApi();
   const { data: tailorsInfo, get: get_tailors_info } = useApi();
 
   useEffect(() => {
     get_tailors_info("/tailorshop/1/");
   }, []);
 
-  const [createDate, setCreatedDate] = useState();
+  const [createDate, setCreatedDate] = useState(jalaliMoment());
   const [deliverDate, setDeliverDate] = useState();
 
   useEffect(() => {
     const currentDate = jalaliMoment();
+    setCreatedDate(currentDate);
+  }, []);
 
+  useEffect(() => {
+    const currentDate = jalaliMoment();
     setValue("dokht_price", tailorsInfo?.default_price);
     // Set the created date to today
-    setCreatedDate(currentDate.format("jYYYY-jM-jD"));
     const daysLater = currentDate.add(
       parseInt(tailorsInfo?.day_to_deliver),
       "days"
     );
     tailorsInfo?.date_to_deliver
-      ? setDeliverDate(tailorsInfo?.date_to_deliver)
-      : setDeliverDate(daysLater.format("jYYYY-jM-jD"));
+      ? setDeliverDate(jalaliMoment(tailorsInfo?.date_to_deliver))
+      : setDeliverDate(daysLater);
   }, [tailorsInfo]);
 
   useEffect(() => {
@@ -203,8 +305,8 @@ function CustomerNewOrder({ CustomerInformation }) {
   }, []);
 
   useEffect(() => {
-    order_data_set()
-  }, [CustomerInformation])
+    order_data_set();
+  }, [CustomerInformation]);
 
   const submitOrder = (data) => {
     const Form = new FormData();
@@ -217,8 +319,11 @@ function CustomerNewOrder({ CustomerInformation }) {
     Form.append("parcha", data.parcha);
     Form.append("meters", data.meters);
     Form.append("rasid", data.rasid);
-    Form.append("date_delivery", jalaliMoment(deliverDate, 'jYYYY-jMM-jDD').format('YYYY-MM-DD'));
-    Form.append("date_created", jalaliMoment(createDate, 'jYYYY-jMM-jDD').format('YYYY-MM-DD'));
+    Form.append(
+      "date_delivery",
+      jalaliMoment(deliverDate).format("YYYY-MM-DD")
+    );
+    Form.append("date_created", jalaliMoment(createDate).format("YYYY-MM-DD"));
     order
       ? patch_order("/orders/" + order?.id + "/", Form)
       : post_order("/orders/", Form);
@@ -252,32 +357,26 @@ function CustomerNewOrder({ CustomerInformation }) {
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 تاریخ سفارش:
               </label>
-              <DatePicker
-                onChange={(unix, formated) => {
-                  setCreatedDate(formated);
+              <InputDatePicker
+                value={createDate}
+                onChange={(e) => {
+                  setCreatedDate(e);
                 }}
-                controlValue={true}
-                containerClass={
-                  "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-                }
-                preSelected={createDate}
-                cancelOnBackgroundClick={true}
+                wrapperClassName="w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                className="none-input-style"
               />
             </div>
             <div className="w-1/3 pr-3">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 تاریخ تحویل:
               </label>
-              <DatePicker
-                onChange={(unix, formated) => {
-                  setDeliverDate(formated);
+              <InputDatePicker
+                value={deliverDate}
+                onChange={(e) => {
+                  setDeliverDate(e);
                 }}
-                controlValue={true}
-                containerClass={
-                  "w-full py-2 px-3 default-inputs focus:outline-none dates-container"
-                }
-                preSelected={deliverDate}
-                cancelOnBackgroundClick={true}
+                wrapperClassName="w-full py-2 px-3 default-inputs focus:outline-none dates-container"
+                className="none-input-style"
               />
             </div>
             <div className="w-1/3 pr-3">

@@ -78,6 +78,13 @@ const MyItem = ({
           placeholder="مقدار اولی"
           onChange={(e) => handleEditField(index, "default", e.target.value)}
         />
+        <input
+          type="checkbox"
+          checked={arr?.required ? arr?.required : ''}
+          onChange={(e) => handleEditField(index, "required", e.target.checked)}
+          className="bg-emerald-600 rounded-xl text-white w-20"
+        >
+        </input>
         <button
           onClick={() => open()}
           type="text"
@@ -98,7 +105,7 @@ const MyItem = ({
 };
 
 function MesurementItemSetting({ type, setTrigger }) {
-  const initialField = { name: "", default: "", list: [] };
+  const initialField = { name: "", default: "", list: [], required: false };
   const [fields, setFields] = useState([]);
   const { register, handleSubmit, reset, watch } = useForm();
 
